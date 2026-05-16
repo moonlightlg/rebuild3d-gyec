@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ReBuild3D — Recycling Process</title>
+<style>
+@page { size: A4; margin: 0; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #eef1f5;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 20px; gap: 10px;
+}
+
+/* Top navigation */
+.nav {
+  width: 210mm;
+  display: flex; justify-content: center; gap: 8px;
+  font-size: 9pt;
+}
+.nav a {
+  padding: 4px 12px; background: white; border-radius: 4px;
+  color: #1b3a5c; text-decoration: none; font-weight: 600;
+  border: 1px solid #cfd8e3;
+}
+.nav a.active { background: #1b3a5c; color: white; border-color: #1b3a5c; }
+.nav a:hover { background: #e8eef5; }
+.nav a.active:hover { background: #0d1b2a; }
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  background: white;
+  position: relative;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.18);
+  padding: 0;
+  display: flex; flex-direction: column;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #0d1b2a 0%, #1b3a5c 70%, #2e6da4 100%);
+  padding: 6mm 8mm;
+  color: white;
+  position: relative;
+}
+.header-row {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.header h1 {
+  font-size: 16pt; font-weight: 900; letter-spacing: -0.3px;
+  line-height: 1;
+}
+.header h1 span { color: #ff6b35; }
+.header .sub {
+  font-size: 7.5pt; color: #a8c4e0; letter-spacing: 1.5px;
+  text-transform: uppercase; margin-top: 1mm;
+}
+.header .pagenum {
+  font-size: 7pt; color: #a8c4e0; text-align: right;
+  letter-spacing: 1.5px;
+}
+.header .pagenum b { color: #ff6b35; font-size: 11pt; display: block; }
+
+/* ── HAZMAT BANNER ── */
+.hazmat {
+  background: linear-gradient(90deg, #c0392b 0%, #d35400 100%);
+  color: white; padding: 3mm 8mm;
+  display: flex; align-items: center; gap: 4mm;
+}
+.hazmat .badge {
+  background: white; color: #c0392b;
+  font-size: 7pt; font-weight: 900; padding: 1.5mm 3mm;
+  border-radius: 1.5mm; letter-spacing: 1px;
+  flex-shrink: 0;
+}
+.hazmat .text {
+  font-size: 7.5pt; line-height: 1.4;
+}
+.hazmat .text strong { font-size: 8.5pt; }
+
+/* ── MAIN CONTENT ── */
+.content {
+  padding: 5mm 8mm 4mm 8mm;
+  flex: 1;
+}
+
+.step-row {
+  display: grid;
+  gap: 3mm;
+  margin-bottom: 2mm;
+  align-items: stretch;
+}
+.step-row.single { grid-template-columns: 1fr; }
+.step-row.double { grid-template-columns: 1fr 1fr; }
+.step-row.with-panel { grid-template-columns: 1.4fr 1fr; }
+
+/* ── STEP CARD ── */
+.step {
+  background: linear-gradient(135deg, #f8fafc, #ffffff);
+  border: 1.5px solid #d6dee8;
+  border-left: 4px solid #1b3a5c;
+  border-radius: 2mm;
+  padding: 3mm;
+  display: flex; gap: 3mm;
+  position: relative;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 9mm; height: 9mm;
+  background: linear-gradient(135deg, #1b3a5c, #2e6da4);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9pt; font-weight: 900;
+  box-shadow: 0 2px 4px rgba(27,58,92,0.3);
+}
+.step-body { flex: 1; min-width: 0; }
+.step-title {
+  font-size: 8pt; font-weight: 900; color: #0d1b2a;
+  text-transform: uppercase; letter-spacing: 0.4px;
+  margin-bottom: 1mm; line-height: 1.2;
+}
+.step-title .icon { margin-right: 1.5mm; }
+.step-desc {
+  font-size: 6.8pt; color: #444; line-height: 1.4;
+}
+.step-metric {
+  display: inline-block;
+  background: #eaf2fc; color: #1b3a5c;
+  font-size: 6pt; font-weight: 800;
+  padding: 0.8mm 2mm; border-radius: 1mm;
+  margin-top: 1.5mm; letter-spacing: 0.3px;
+}
+.step-metric.warn { background: #fdf2f0; color: #c0392b; }
+.step-metric.ok { background: #e8f5ee; color: #1a6b40; }
+
+/* AI step — highlighted */
+.step.ai {
+  border-left-color: #7b2d8b;
+  background: linear-gradient(135deg, #faf0fb, #ffffff);
+}
+.step.ai .step-num {
+  background: linear-gradient(135deg, #7b2d8b, #9b59b6);
+  box-shadow: 0 2px 4px rgba(123,45,139,0.4);
+}
+
+/* SSD step — accent */
+.step.prep {
+  border-left-color: #1a6b40;
+  background: linear-gradient(135deg, #f0f9f4, #ffffff);
+}
+.step.prep .step-num {
+  background: linear-gradient(135deg, #1a6b40, #27ae60);
+}
+
+/* Arrow connector */
+.flow-arrow {
+  text-align: center;
+  font-size: 11pt; color: #1b3a5c;
+  font-weight: 900;
+  margin: 0.5mm 0;
+  line-height: 1;
+}
+
+/* ── SIDE PANELS ── */
+.panel {
+  background: linear-gradient(135deg, #fffbf5, #fef6e9);
+  border: 1.5px solid #f0d9a8;
+  border-left: 4px solid #d4860a;
+  border-radius: 2mm;
+  padding: 3mm;
+}
+.panel-title {
+  font-size: 7pt; font-weight: 900;
+  color: #8a5a0b; text-transform: uppercase;
+  letter-spacing: 0.6px; margin-bottom: 2mm;
+  display: flex; align-items: center; gap: 1.5mm;
+}
+.panel-title .icon { font-size: 9pt; }
+
+/* Density table */
+.density-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 6pt;
+}
+.density-table th {
+  background: #d4860a; color: white;
+  padding: 1mm 1.5mm; text-align: left;
+  font-size: 5.5pt; letter-spacing: 0.3px;
+  font-weight: 800;
+}
+.density-table td {
+  padding: 1mm 1.5mm;
+  border-bottom: 1px solid #f0d9a8;
+}
+.density-table tr.keep td { background: rgba(26,107,64,0.08); font-weight: 600; }
+.density-table tr.remove td { color: #c0392b; }
+.density-table .badge-keep {
+  background: #1a6b40; color: white;
+  font-size: 5pt; padding: 0.3mm 1mm; border-radius: 0.8mm;
+  font-weight: 800;
+}
+.density-table .badge-rm {
+  background: #c0392b; color: white;
+  font-size: 5pt; padding: 0.3mm 1mm; border-radius: 0.8mm;
+  font-weight: 800;
+}
+
+/* Mix recipe visualization */
+.mix-recipe {
+  display: flex; flex-direction: column; gap: 2mm;
+}
+.mix-bar {
+  display: flex; height: 5mm;
+  border-radius: 1mm; overflow: hidden;
+  border: 1px solid #ccc;
+}
+.mix-segment {
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 5.5pt; font-weight: 800;
+}
+.mix-legend {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1mm; font-size: 5.8pt;
+}
+.legend-item {
+  display: flex; align-items: center; gap: 1.5mm;
+}
+.legend-swatch {
+  width: 3mm; height: 3mm; border-radius: 0.5mm;
+  flex-shrink: 0;
+}
+
+/* ── OUTPUT BAR ── */
+.output {
+  background: linear-gradient(135deg, #1a6b40 0%, #27ae60 100%);
+  color: white;
+  padding: 4mm 8mm;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: auto;
+}
+.output-left h2 {
+  font-size: 11pt; font-weight: 900;
+  letter-spacing: -0.2px;
+  margin-bottom: 0.5mm;
+}
+.output-left p {
+  font-size: 7pt; color: #c8eed6;
+  line-height: 1.3;
+}
+.output-metrics {
+  display: flex; gap: 4mm;
+}
+.out-stat {
+  text-align: center;
+  border-left: 1px solid rgba(255,255,255,0.25);
+  padding-left: 4mm;
+}
+.out-stat:first-child { border: none; padding-left: 0; }
+.out-stat .num {
+  font-size: 11pt; font-weight: 900; color: #ffd166;
+  line-height: 1;
+}
+.out-stat .lbl {
+  font-size: 5.5pt; color: #c8eed6; text-transform: uppercase;
+  letter-spacing: 0.6px; margin-top: 0.5mm;
+}
+
+/* ── PRINT ── */
+@media print {
+  body { background: none; padding: 0; gap: 0; }
+  .nav { display: none; }
+  .page { box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="index.html">Page 1 · Business Plan Visual</a>
+  <a href="recycling.html" class="active">Page 2 · Recycling Process</a>
+  <a href="printing.html">Page 3 · 3D Printing System</a>
+</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-row">
+      <div>
+        <h1>From <span>Ruins</span> to Filament</h1>
+        <div class="sub">The ReBuild3D Recycled Cement Aggregate (RCA) Pipeline</div>
+      </div>
+      <div class="pagenum">
+        Process<br><b>02</b>
+      </div>
+    </div>
+  </div>
+
+  <!-- HAZMAT BANNER -->
+  <div class="hazmat">
+    <div class="badge">⚠ STEP 0</div>
+    <div class="text">
+      <strong>HAZMAT SCREENING — done before crushing begins.</strong><br>
+      Pre-1980s structures often contain asbestos, lead paint, and PCBs. Trained crews identify and divert contaminated debris (UNDP Debris-Management SOP), protecting workers and downstream concrete quality.
+    </div>
+  </div>
+
+  <!-- MAIN PIPELINE -->
+  <div class="content">
+
+    <!-- Step 1 -->
+    <div class="step-row single">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title"><span class="icon">🔨</span>Primary Crushing</div>
+          <div class="step-desc">A jaw or impact crusher reduces large structural debris — slabs, columns, masonry — from field size down to manageable fragments. This is the bottleneck stage; throughput here governs the rest of the line.</div>
+          <span class="step-metric">Input: 300–500 mm → Output: 50–100 mm</span>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow">▼</div>
+
+    <!-- Step 2 + 3 (metal removal) -->
+    <div class="step-row double">
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title"><span class="icon">🧲</span>Magnetic Separation</div>
+          <div class="step-desc">An overband electromagnet lifts ferrous metals — rebar, steel mesh, structural anchors — off the conveyor. Essential: rebar would destroy downstream crushers.</div>
+          <span class="step-metric ok">Ferrous removal &gt;95%</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title"><span class="icon">⚡</span>Eddy Current Separation</div>
+          <div class="step-desc">A rotating high-frequency magnetic field repels non-ferrous metals — copper wiring, aluminium framing — that magnets miss. Prevents long-term electrochemical corrosion in the printed structure.</div>
+          <span class="step-metric ok">Non-ferrous removal &gt;90%</span>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow">▼</div>
+
+    <!-- Step 4 -->
+    <div class="step-row single">
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title"><span class="icon">📊</span>Vibrating Sieve · Stage 1</div>
+          <div class="step-desc">Oscillating screen decks classify by size. Oversized fragments loop back to the crusher; fine dust (&lt;0.075 mm) is set aside as supplementary filler for the mix.</div>
+          <span class="step-metric">Pass band: ~5–50 mm to next stage</span>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow">▼</div>
+
+    <!-- Step 5 + density panel -->
+    <div class="step-row with-panel">
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title"><span class="icon">💨</span>Air Jigging — Density Separation</div>
+          <div class="step-desc">Pulsed upward airflow through a perforated deck stratifies particles by density. Heavy concrete &amp; ceramic sink and are kept; lighter wood, plastics, and gypsum rise and are diverted. This is the step that converts low-grade C&amp;D waste into structural-grade feedstock.</div>
+          <span class="step-metric">Backed by Sciencedirect S0956053X16306882</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="icon">⚖</span> Density Targets (g/cm³)</div>
+        <table class="density-table">
+          <thead><tr><th>Material</th><th>ρ</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr class="keep"><td>Concrete / ceramic</td><td>2.0–2.5</td><td><span class="badge-keep">KEEP</span></td></tr>
+            <tr class="remove"><td>Gypsum / plaster</td><td>1.4–1.6</td><td><span class="badge-rm">REJECT</span></td></tr>
+            <tr class="remove"><td>Plastics</td><td>0.9–1.4</td><td><span class="badge-rm">REJECT</span></td></tr>
+            <tr class="remove"><td>Wood</td><td>0.5–0.9</td><td><span class="badge-rm">REJECT</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="flow-arrow">▼</div>
+
+    <!-- Step 6 + 7 (refinement) -->
+    <div class="step-row double">
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title"><span class="icon">⚙</span>Secondary Impact Crusher</div>
+          <div class="step-desc">Specifically an impact crusher — not jaw — because impact produces <strong>cubical</strong> particles. Cubical aggregate packs denser, demands less water, and prints more predictably than elongated jaw output.</div>
+          <span class="step-metric">Output: 0–10 mm, cubical shape</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <div class="step-title"><span class="icon">📐</span>Vibrating Sieve · Stage 2</div>
+          <div class="step-desc">Final gradation. Targets <strong>fine RCA (FRCA) at 0–5 mm</strong> — the rule of thumb of 1/3 of nozzle diameter (~25–40 mm at COBOD), with safety margin for pumpability.</div>
+          <span class="step-metric ok">Spec: 0–5 mm FRCA</span>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow">▼</div>
+
+    <!-- Step 8 (SSD prep) -->
+    <div class="step-row single">
+      <div class="step prep">
+        <div class="step-num">8</div>
+        <div class="step-body">
+          <div class="step-title"><span class="icon">💧</span>SSD Pre-Wetting (Saturated Surface Dry)</div>
+          <div class="step-desc">RCA absorbs 3–10% water — five to ten times more than virgin aggregate. Without correction, the aggregate steals mix water and the effective water-to-cement ratio rises, weakening the print. Pre-saturating to SSD locks absorption before mixing.</div>
+          <span class="step-metric warn">Untreated RCA → up to 30% strength loss</span>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow">▼</div>
+
+    <!-- Step 9 + mix recipe panel -->
+    <div class="step-row with-panel">
+      <div class="step">
+        <div class="step-num">9</div>
+        <div class="step-body">
+          <div class="step-title"><span class="icon">🧪</span>Mix Engineering — 40 : 60 Binder : Aggregate</div>
+          <div class="step-desc">Binder is not pure cement: OPC is partially replaced by silica fume or fly ash, which densifies the paste–aggregate interface and recovers the strength lost to RCA. Three admixtures govern printability: superplasticizer (flow), retarder (open time), accelerator (buildability at the nozzle).</div>
+          <span class="step-metric">Compressive target: ≥25 MPa (residential code)</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="icon">🧱</span> Mix Recipe</div>
+        <div class="mix-recipe">
+          <div class="mix-bar">
+            <div class="mix-segment" style="background:#1b3a5c; flex: 30;">OPC 30%</div>
+            <div class="mix-segment" style="background:#2e6da4; flex: 10;">SCM 10%</div>
+            <div class="mix-segment" style="background:#7c8e9e; flex: 60;">RCA 60%</div>
+          </div>
+          <div class="mix-legend">
+            <div class="legend-item"><span class="legend-swatch" style="background:#1b3a5c"></span>OPC binder</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#2e6da4"></span>Silica fume / fly ash</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#7c8e9e"></span>Recycled FRCA</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#ff6b35"></span>+ Admixtures (1–3%)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow">▼</div>
+
+    <!-- Step 10 - AI -->
+    <div class="step-row single">
+      <div class="step ai">
+        <div class="step-num">10</div>
+        <div class="step-body">
+          <div class="step-title"><span class="icon">🤖</span>AI Quality Control — The Adaptive Layer</div>
+          <div class="step-desc">Disaster debris composition varies street by street. A vision-and-spectroscopy model classifies each batch, measures water absorption, predicts compressive strength, and outputs a corrected recipe in real time. This is what makes the pipeline robust to chaotic input — and what differentiates ReBuild3D from a fixed-recipe printer.</div>
+          <span class="step-metric">Closed-loop adjustment of water, SCM ratio, admixture dose</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- OUTPUT BAR -->
+  <div class="output">
+    <div class="output-left">
+      <h2>↳ Output: Print-Ready Structural FRCA Mix</h2>
+      <p>Sourced from the disaster site · 60% recycled · 25+ MPa strength · 30-minute open time</p>
+    </div>
+    <div class="output-metrics">
+      <div class="out-stat">
+        <div class="num">~0</div>
+        <div class="lbl">Raw Material Import</div>
+      </div>
+      <div class="out-stat">
+        <div class="num">100%</div>
+        <div class="lbl">Debris Diverted</div>
+      </div>
+      <div class="out-stat">
+        <div class="num">≥25</div>
+        <div class="lbl">MPa Compressive</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

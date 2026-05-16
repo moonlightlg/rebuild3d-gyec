@@ -19,12 +19,29 @@
 
   body {
     font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f0f0f0;
+    background: #eef1f5;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
+    gap: 10px;
   }
+
+  .nav {
+    width: 210mm;
+    display: flex; justify-content: center; gap: 8px;
+    font-size: 9pt;
+  }
+  .nav a {
+    padding: 4px 12px; background: white; border-radius: 4px;
+    color: #1b3a5c; text-decoration: none; font-weight: 600;
+    border: 1px solid #cfd8e3;
+  }
+  .nav a.active { background: #1b3a5c; color: white; border-color: #1b3a5c; }
+  .nav a:hover { background: #e8eef5; }
+  .nav a.active:hover { background: #0d1b2a; }
+
+  @media print { .nav { display: none; } body { padding: 0; gap: 0; background: none; } }
 
   .page {
     width: 210mm;
@@ -459,6 +476,39 @@
     font-style: italic;
   }
 
+  .library-cta {
+    text-align: center;
+    padding: 4mm 8mm;
+    background: linear-gradient(180deg, #fff8f5, #ffffff);
+    border-top: 1px solid #f0e6e0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .library-cta p {
+    font-size: 8pt;
+    color: #0d1b2a;
+    margin-bottom: 2mm;
+    line-height: 1.4;
+  }
+
+  .library-cta a {
+    display: inline-block;
+    font-size: 8pt;
+    font-weight: 800;
+    color: #fff;
+    background: #c0392b;
+    padding: 2mm 5mm;
+    border-radius: 1mm;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .library-cta a:hover {
+    background: #a33228;
+    color: #fff;
+  }
+
   /* ─── PRINT STYLES ─── */
   @media print {
     body {
@@ -474,6 +524,13 @@
 </style>
 </head>
 <body>
+
+<div class="nav">
+  <a href="index.html" class="active">Page 1 · Business Plan Visual</a>
+  <a href="recycling.html">Page 2 · Recycling Process</a>
+  <a href="printing.html">Page 3 · 3D Printing System</a>
+</div>
+
 <div class="page">
 
   <!-- ═══════════════ HEADER ═══════════════ -->
@@ -708,6 +765,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="library-cta">
+    <p>Browse miniature CAD previews — filter by bedrooms, <strong>climate &amp; site</strong>, culture, and preferences.</p>
+    <a href="house-library.html">Open house design library</a>
   </div>
 
   <!-- ═══════════════ FOOTER ═══════════════ -->
