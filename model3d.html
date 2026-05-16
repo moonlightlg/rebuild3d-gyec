@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReBuild3D — 3D Processing Line Model</title>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+  }
+}
+</script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; overflow:hidden; background:#0d1b2a; font-family:'Segoe UI',Arial,sans-serif; display:flex; flex-direction:column; }
+
+.nav { background:#0d1b2a; display:flex; justify-content:center; gap:8px; padding:7px; flex-shrink:0; border-bottom:1px solid rgba(255,255,255,0.06); }
+.nav a { padding:3px 11px; background:rgba(255,255,255,0.07); border-radius:4px; color:#a8c4e0; text-decoration:none; font-weight:600; font-size:8pt; border:1px solid rgba(255,255,255,0.12); transition: background 0.15s; }
+.nav a:hover { background:rgba(255,255,255,0.15); }
+.nav a.active { background:#ff6b35; color:white; border-color:#ff6b35; }
+
+#wrap { flex:1; position:relative; }
+#c { width:100%; height:100%; display:block; }
+
+/* ── Floating station labels ── */
+#labels { position:absolute; inset:0; pointer-events:none; }
+.lbl {
+  position:absolute; transform:translate(-50%,-100%);
+  display:flex; align-items:center; gap:5px;
+  background:rgba(10,22,38,0.82); border:1.5px solid rgba(255,107,53,0.45);
+  color:white; font-size:6.8pt; font-weight:700; white-space:nowrap;
+  padding:2px 8px 2px 4px; border-radius:3px; backdrop-filter:blur(4px);
+  pointer-events:none; letter-spacing:.3px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.lbl.hot { background:rgba(255,107,53,0.88); border-color:#ff6b35; }
+.lbl .num {
+  background:#ff6b35; color:white; width:15px; height:15px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:7pt; font-weight:900; flex-shrink:0;
+}
+.lbl.hot .num { background:white; color:#ff6b35; }
+
+/* ── Info panel ── */
+#panel {
+  position:absolute; right:-320px; top:50%; transform:translateY(-50%);
+  width:280px; background:rgba(10,22,38,0.96); border:1.5px solid rgba(255,107,53,.5);
+  border-radius:6px; padding:14px; color:white; transition:right .28s cubic-bezier(.4,0,.2,1);
+  backdrop-filter:blur(10px); z-index:30;
+}
+#panel.open { right:12px; }
+#panel .p-step { font-size:6.5pt; color:#a8c4e0; letter-spacing:2px; text-transform:uppercase; margin-bottom:3px; }
+#panel h3 { font-size:11pt; font-weight:900; color:#ff6b35; margin-bottom:8px; line-height:1.2; }
+#panel p { font-size:7.5pt; line-height:1.55; color:#cde0f5; margin-bottom:9px; }
+#panel .tbox { background:rgba(255,107,53,.07); border:1px solid rgba(255,107,53,.22); border-radius:4px; padding:7px; font-size:7pt; color:#ffd166; line-height:1.55; }
+#panel .tbox b { color:white; }
+#close { position:absolute; top:9px; right:11px; background:none; border:none; color:#a8c4e0; font-size:15pt; cursor:pointer; line-height:1; padding:0; }
+#close:hover { color:white; }
+
+/* ── Legend ── */
+#leg { position:absolute; bottom:14px; left:14px; background:rgba(10,22,38,.82); border:1px solid rgba(255,255,255,.1); border-radius:4px; padding:9px 12px; color:white; font-size:6.5pt; line-height:1.9; pointer-events:none; backdrop-filter:blur(4px); }
+#leg .lt { font-weight:900; color:#ff6b35; font-size:7.5pt; margin-bottom:3px; text-transform:uppercase; letter-spacing:1px; }
+.li { display:flex; align-items:center; gap:7px; }
+.ld { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+
+/* ── Hint ── */
+#hint { position:absolute; bottom:14px; right:14px; color:rgba(168,196,224,.55); font-size:6.5pt; text-align:right; pointer-events:none; line-height:1.9; }
+
+/* ── Title card ── */
+#title-card { position:absolute; top:10px; left:14px; pointer-events:none; }
+#title-card h2 { color:white; font-size:10pt; font-weight:900; line-height:1.1; }
+#title-card h2 span { color:#ff6b35; }
+#title-card p { color:#a8c4e0; font-size:6.5pt; margin-top:2px; }
+
+/* ── Reset cam button ── */
+#reset-cam { position:absolute; top:10px; right:14px; background:rgba(10,22,38,.82); border:1px solid rgba(255,255,255,.15); color:#a8c4e0; font-size:7pt; padding:4px 10px; border-radius:3px; cursor:pointer; backdrop-filter:blur(4px); }
+#reset-cam:hover { color:white; background:rgba(255,107,53,.5); }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="index.html">Page 1 · Business Plan</a>
+  <a href="recycling.html">Page 2 · Recycling</a>
+  <a href="printing.html">Page 3 · 3D Printing</a>
+  <a href="model3d.html" class="active">🎮 3D Model</a>
+</div>
+
+<div id="wrap">
+  <canvas id="c"></canvas>
+  <div id="labels"></div>
+
+  <div id="panel">
+    <button id="close">×</button>
+    <div class="p-step" id="p-step">STEP 1</div>
+    <h3 id="p-name">Station</h3>
+    <p id="p-desc">Description</p>
+    <div class="tbox" id="p-tech">Technical detail</div>
+  </div>
+
+  <div id="leg">
+    <div class="lt">Material Flow</div>
+    <div class="li"><div class="ld" style="background:#9e9282"></div>Raw rubble</div>
+    <div class="li"><div class="ld" style="background:#7c8e9e"></div>Processed aggregate</div>
+    <div class="li"><div class="ld" style="background:#f4d03f"></div>Rejected (air jig)</div>
+    <div class="li"><div class="ld" style="background:#e74c3c"></div>Metal (magnetic)</div>
+  </div>
+
+  <div id="title-card">
+    <h2>Re<span>Build</span>3D</h2>
+    <p>RCA Processing Line — Interactive 3D Model</p>
+  </div>
+
+  <button id="reset-cam">⟳ Reset View</button>
+
+  <div id="hint">Drag to orbit · Scroll to zoom<br>Click any machine for details</div>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ─────────────────────────────────────────────────
+//  RENDERER + SCENE + CAMERA
+// ─────────────────────────────────────────────────
+const wrap   = document.getElementById('wrap');
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xb8cad8);
+scene.fog = new THREE.FogExp2(0xb8cad8, 0.018);
+
+const W = wrap.clientWidth, H = wrap.clientHeight;
+const camera = new THREE.PerspectiveCamera(48, W / H, 0.1, 500);
+const DEFAULT_CAM = new THREE.Vector3(-2, 27, 42);
+camera.position.copy(DEFAULT_CAM);
+
+const controls = new OrbitControls(camera, canvas);
+controls.target.set(-2, 2, 0);
+controls.enableDamping = true;
+controls.dampingFactor = 0.07;
+controls.minDistance = 8;
+controls.maxDistance = 90;
+controls.maxPolarAngle = Math.PI / 2.1;
+controls.update();
+
+// ─────────────────────────────────────────────────
+//  LIGHTS
+// ─────────────────────────────────────────────────
+scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+
+const sun = new THREE.DirectionalLight(0xfff8ee, 1.6);
+sun.position.set(12, 30, 18);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left:-35, right:32, top:14, bottom:-12, near:1, far:90 });
+sun.shadow.radius = 4;
+scene.add(sun);
+
+const fill = new THREE.DirectionalLight(0xc8dcee, 0.5);
+fill.position.set(-18, 14, -12);
+scene.add(fill);
+
+scene.add(new THREE.HemisphereLight(0x9ab8d0, 0x7a6e5a, 0.35));
+
+// ─────────────────────────────────────────────────
+//  MATERIALS
+// ─────────────────────────────────────────────────
+const M = {
+  steel:   new THREE.MeshStandardMaterial({ color:0x7a8a96, roughness:0.55, metalness:0.45 }),
+  steelDk: new THREE.MeshStandardMaterial({ color:0x4a5a66, roughness:0.6, metalness:0.5 }),
+  accent:  new THREE.MeshStandardMaterial({ color:0xff6b35, roughness:0.65, metalness:0.1 }),
+  hopper:  new THREE.MeshStandardMaterial({ color:0x5a6a76, roughness:0.6, metalness:0.4 }),
+  rubber:  new THREE.MeshStandardMaterial({ color:0x2a2a2a, roughness:0.95, metalness:0 }),
+  motor:   new THREE.MeshStandardMaterial({ color:0x2a9d8f, roughness:0.4, metalness:0.7 }),
+  magnet:  new THREE.MeshStandardMaterial({ color:0x1b3a5c, roughness:0.5, metalness:0.7 }),
+  ground:  new THREE.MeshStandardMaterial({ color:0xd0c8bc, roughness:0.95, metalness:0 }),
+  yellow:  new THREE.MeshStandardMaterial({ color:0xf4c430, roughness:0.8, metalness:0 }),
+  red:     new THREE.MeshStandardMaterial({ color:0xe74c3c, roughness:0.4, metalness:0.6 }),
+  white:   new THREE.MeshStandardMaterial({ color:0xfafafa, roughness:0.85, metalness:0 }),
+  navy:    new THREE.MeshStandardMaterial({ color:0x1b3a5c, roughness:0.6, metalness:0.3 }),
+  orange:  new THREE.MeshStandardMaterial({ color:0xe67e22, roughness:0.6, metalness:0.3 }),
+  concrete:new THREE.MeshStandardMaterial({ color:0x9e9282, roughness:1.0, metalness:0 }),
+  teal:    new THREE.MeshStandardMaterial({ color:0x17a589, roughness:0.5, metalness:0.6 }),
+};
+
+// Belt canvas texture
+const bCnv = document.createElement('canvas'); bCnv.width=128; bCnv.height=32;
+const bx = bCnv.getContext('2d');
+bx.fillStyle='#252525'; bx.fillRect(0,0,128,32);
+bx.strokeStyle='#303030'; bx.lineWidth=4;
+for(let i=-32;i<=160;i+=20){ bx.beginPath(); bx.moveTo(i,0); bx.lineTo(i+32,32); bx.stroke(); }
+bx.strokeStyle='#1a1a1a'; bx.lineWidth=2;
+bx.beginPath(); bx.moveTo(0,5); bx.lineTo(128,5); bx.stroke();
+bx.beginPath(); bx.moveTo(0,27); bx.lineTo(128,27); bx.stroke();
+const beltTex = new THREE.CanvasTexture(bCnv);
+beltTex.wrapS=THREE.RepeatWrapping; beltTex.repeat.set(8,1);
+const M_BELT = new THREE.MeshStandardMaterial({ map:beltTex, roughness:0.9, metalness:0 });
+
+// ─────────────────────────────────────────────────
+//  HELPERS
+// ─────────────────────────────────────────────────
+function mesh(geo, mat, parent, x=0,y=0,z=0, rx=0,ry=0,rz=0) {
+  const m = new THREE.Mesh(geo, mat);
+  m.position.set(x,y,z); m.rotation.set(rx,ry,rz);
+  m.castShadow=true; m.receiveShadow=true;
+  parent.add(m); return m;
+}
+const BG = (w,h,d) => new THREE.BoxGeometry(w,h,d);
+const CG = (rt,rb,h,s=16) => new THREE.CylinderGeometry(rt,rb,h,s);
+const SG = (r,ws=12,hs=10) => new THREE.SphereGeometry(r,ws,hs);
+
+// Grid on screen deck
+function addScreenGrid(parent, w, d, x, y, z, rz) {
+  const g = new THREE.Group(); g.position.set(x,y,z); g.rotation.z=rz; parent.add(g);
+  const lines = [];
+  const nx=Math.round(w/0.4), nz=Math.round(d/0.4);
+  const lmat = new THREE.LineBasicMaterial({ color:0x444444 });
+  for(let i=0;i<=nx;i++){ const t=i/nx; const lx=-w/2+t*w; const pts=[new THREE.Vector3(lx,0,-d/2),new THREE.Vector3(lx,0,d/2)]; g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),lmat)); }
+  for(let i=0;i<=nz;i++){ const t=i/nz; const lz=-d/2+t*d; const pts=[new THREE.Vector3(-w/2,0,lz),new THREE.Vector3(w/2,0,lz)]; g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),lmat)); }
+  return g;
+}
+
+// ─────────────────────────────────────────────────
+//  GROUND
+// ─────────────────────────────────────────────────
+const gndCnv = document.createElement('canvas'); gndCnv.width=gndCnv.height=512;
+const gc = gndCnv.getContext('2d');
+gc.fillStyle='#cec6ba'; gc.fillRect(0,0,512,512);
+gc.strokeStyle='rgba(0,0,0,0.06)'; gc.lineWidth=1;
+for(let i=0;i<=512;i+=32){ gc.beginPath(); gc.moveTo(i,0); gc.lineTo(i,512); gc.stroke(); gc.beginPath(); gc.moveTo(0,i); gc.lineTo(512,i); gc.stroke(); }
+const gndTex = new THREE.CanvasTexture(gndCnv);
+gndTex.wrapS=gndTex.wrapT=THREE.RepeatWrapping; gndTex.repeat.set(14,5);
+M.ground.map = gndTex;
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(70,20), M.ground);
+ground.rotation.x = -Math.PI/2; ground.receiveShadow = true;
+scene.add(ground);
+
+// ─────────────────────────────────────────────────
+//  STATION DATA
+// ─────────────────────────────────────────────────
+const STATIONS = [
+  { id:'truck-in', step:'①', name:'Rubble Collection & Pre-sort', labelH:5,
+    desc:'Heavy machinery excavates disaster rubble and loads it onto dump trucks. Workers manually remove large unrecyclables — timber planks, glass panels — before departure. All loads screened per UNDP Debris Management SOP before entering the processing facility.',
+    tech:'Pre-sort rejects: large glass, timber, hazmat. UNDP SOP ref: debris-sop-2.pdf. Hazmat screening mandatory for pre-1980s structures (asbestos, lead paint).' },
+  { id:'jaw',      step:'②', name:'Jaw Crusher', labelH:6.5,
+    desc:'The primary jaw crusher reduces large chunks (300–500 mm) to 50–100 mm fragments by forcing material between a fixed jaw plate and a reciprocating jaw. Liberates rebar from concrete and begins the size-reduction chain.',
+    tech:'Output: 50–100 mm. Komplet BJ-series mobile units fit disaster-site deployment (tracks, compact footprint). Throughput: 40–80 t/hr.' },
+  { id:'magnet',   step:'③', name:'Magnetic Separation', labelH:6,
+    desc:'An overband electromagnet suspended above the exit conveyor belt lifts ferrous metals — rebar, wire mesh, structural bolts — off the aggregate stream. Ferrous contamination would damage downstream crushers and weaken printed concrete.',
+    tech:'Ferrous removal: >95 %. Complement with eddy-current separator (not shown) for copper/aluminium wiring. Belt speed: matched to conveyor.' },
+  { id:'scr1',     step:'④', name:'Vibrating Scalping Screen', labelH:5.5,
+    desc:'An inclined vibrating screen deck classifies by size. Fine particles (<2 mm, already usable powder) drop through the mesh into a collection bin below — avoiding re-crushing of material that is already at target gradation. Oversized fragments loop back to the jaw crusher.',
+    tech:'Screen aperture: 2–5 mm. Prevents fine dust from clogging the air jig. Incline: 15–20°. Eccentric drive mechanism.' },
+  { id:'airjig',   step:'⑤', name:'Air Jig — Density Separation', labelH:7,
+    desc:'Upward air pulses through three stacked perforated decks stratify particles by density. Dense concrete and ceramic (2.0–2.5 g/cm³) sink and exit as product. Lighter contaminants — wood, plastics, gypsum — float upward and are diverted to a reject chute.',
+    tech:'Sciencedirect ref: S0956053X16306882. Density cut-point: ~1.8 g/cm³. Requires dry feed (pre-dry in monsoon climates). Removes organics that would cause long-term concrete degradation.' },
+  { id:'impact',   step:'⑥', name:'Impact Crusher', labelH:7,
+    desc:'A secondary impact crusher reduces the cleaned aggregate to 0–10 mm cubical particles. Impact-type (not jaw) specifically chosen because the high-speed rotor produces cubical particle shape — essential for achieving low void ratio, low water demand, and consistent extrusion rheology in 3D printing.',
+    tech:'Cubical vs. flaky: voids 30 % lower, water demand reduced ~15 %. Belt-driven rotor, adjustable curtains set output size. Ref: Sciencedirect S0950061819328594.' },
+  { id:'scr2',     step:'⑦', name:'Vibrating Screen ②', labelH:5.5,
+    desc:'Final classification screen. 0–5 mm fine RCA (FRCA) passes through as the end product. Any oversized particles return to the impact crusher for re-processing. This tight specification ensures compatibility with the COBOD BOD2 nozzle (25–40 mm diameter).',
+    tech:'Final spec: 0–5 mm FRCA. Rule: max aggregate < 1/3 nozzle diameter. 5 mm « 8–13 mm limit for COBOD nozzles. Ensures pumpability.' },
+  { id:'mixer',    step:'⑧', name:'Concrete Mixer Truck', labelH:6,
+    desc:'FRCA is pre-wetted to SSD condition, then loaded into the drum with externally-sourced OPC cement, silica fume, water, superplasticizer, retarder, and a nozzle-side accelerator. The drum rotates continuously during the drive back to the construction site to keep the mix workable.',
+    tech:'Mix ratio: 40 binder : 60 FRCA. Binder = OPC + 10–15 % silica fume. Open time: ~30 min (retarder). Compressive target: ≥25 MPa. Ref: Sciencedirect S0950061819328594.' },
+];
+
+// ─────────────────────────────────────────────────
+//  MACHINE BUILDERS  (returns {group, clickMesh})
+// ─────────────────────────────────────────────────
+
+// ① INPUT DUMP TRUCK  x=-24
+function makeTruckIn(x) {
+  const g = new THREE.Group(); g.position.x = x;
+  // cab
+  mesh(BG(2.4,2.2,2.2), M.steel, g,  1,1.1,0);
+  mesh(BG(2.4,0.5,2.2), M.accent,g,  1,2.3,0);
+  mesh(BG(0.5,0.9,2.2), M.white, g,  0.5,1.7,0); // windscreen
+  // bed
+  const bed = mesh(BG(4.5,0.3,2.4), M.steelDk, g, -1.2,0.9,0);
+  mesh(BG(4.5,1.2,0.15),M.steel, g,  -1.2,1.5, 1.2); // side
+  mesh(BG(4.5,1.2,0.15),M.steel, g,  -1.2,1.5,-1.2);
+  mesh(BG(0.15,1.2,2.4),M.steel, g,  -3.4,1.5, 0);   // rear gate
+  // wheels
+  for(const [wx,wz] of [[0.1,1.3],[0.1,-1.3],[-2.2,1.3],[-2.2,-1.3]])
+    mesh(CG(0.52,0.52,0.45,14), M.rubber, g, wx,0.52,wz, Math.PI/2,0,0);
+  // rubble pile on bed
+  for(let i=0;i<14;i++){
+    const s=0.18+Math.random()*0.22;
+    const rx=-1.2+(Math.random()-0.5)*3.6, rz=(Math.random()-0.5)*1.6;
+    mesh(BG(s*1.3,s,s*1.1), M.concrete, g, rx,1.2+s/2+Math.random()*0.2,rz,0,Math.random(),0);
+  }
+  const hit = mesh(BG(6.5,2.5,2.6), new THREE.MeshStandardMaterial({visible:false}), g, -1.2,1.5,0);
+  return { group:g, clickMesh:hit };
+}
+
+// ② JAW CRUSHER  x=-17
+function makeJawCrusher(x) {
+  const g = new THREE.Group(); g.position.x = x;
+  // tracked base
+  for(const tz of [1.1,-1.1]){
+    mesh(BG(3.8,0.55,0.7), M.rubber,  g,  0,0.28,tz);
+    mesh(BG(3.8,0.15,0.7), M.steelDk, g,  0,0.55,tz);
+  }
+  // main body (tapered wedge: wider at top via layered boxes)
+  mesh(BG(3.4,1.5,2.3), M.steel,   g,  0,1.35,0);
+  mesh(BG(3.2,1.5,2.2), M.steel,   g,  0.1,2.85,0);
+  mesh(BG(3.0,1.2,2.1), M.hopper,  g,  0.2,4.1,0);
+  // orange accent stripe
+  mesh(BG(3.5,0.18,2.4), M.accent,  g,  0,0.6,0);
+  // top hopper (wide funnel walls)
+  mesh(BG(4.2,0.5,2.8),  M.hopper, g,  0,5,0);   // top rim
+  mesh(BG(0.12,1.5,2.8), M.hopper, g,  1.85,4.3,0, 0,0, 0.35); // L wall
+  mesh(BG(0.12,1.5,2.8), M.hopper, g, -1.85,4.3,0, 0,0,-0.35); // R wall
+  // side panels + vent slats
+  for(const [sx,sz] of [[1.75,0],[-1.75,0]]) {
+    mesh(BG(0.1,3,2.3), M.steel, g, sx,1.8,0);
+    for(let vi=0;vi<4;vi++) mesh(BG(0.12,0.12,2.1), M.steelDk, g, sx,0.8+vi*0.5,0);
+  }
+  // output chute (angled box at bottom front)
+  mesh(BG(1.4,0.12,2.0), M.steelDk, g, 0.6,0.75,0, 0,0,-0.45);
+  // hitbox
+  const hit = mesh(BG(4.2,5.5,3), new THREE.MeshStandardMaterial({visible:false}), g, 0,2.5,0);
+  return { group:g, clickMesh:hit };
+}
+
+// ③ CONVEYOR + MAGNET  x=-11
+function makeMagnet(x) {
+  const g = new THREE.Group(); g.position.x = x;
+  // conveyor frame & belt
+  mesh(BG(8,0.28,2.2), M.steelDk, g, 0,2.0,0, 0,0, 0.12);
+  mesh(BG(7.8,0.12,2.0), M_BELT, g,  0,2.17,0, 0,0, 0.12);
+  // conveyor legs
+  for(const lx of [-3.2,3.2]){
+    mesh(BG(0.2,2,0.2), M.steel, g, lx,0.95,-0.9);
+    mesh(BG(0.2,2,0.2), M.steel, g, lx,0.95, 0.9);
+  }
+  // A-frame supports for magnet
+  for(const ax of [-0.8,0.8]){
+    mesh(BG(0.15,3.8,0.15), M.steel, g, ax,3.9, 1.2, 0,0, ax>0?-0.18:0.18);
+    mesh(BG(0.15,3.8,0.15), M.steel, g, ax,3.9,-1.2, 0,0, ax>0?-0.18:0.18);
+  }
+  mesh(BG(2.2,0.2,2.8), M.steel, g, 0,5.6,0); // cross beam
+  // magnet block (U-shape using 3 boxes)
+  mesh(BG(2.4,1.0,0.4), M.magnet, g,  0,4.8, 1.1);  // front plate
+  mesh(BG(2.4,1.0,0.4), M.magnet, g,  0,4.8,-1.1);  // rear plate
+  mesh(BG(2.4,0.35,2.2), M.magnet, g, 0,5.35,0);    // top bridge
+  // blue glow indicator
+  const pt = new THREE.PointLight(0x4fc3f7, 1.2, 4);
+  pt.position.set(0,4.8,0); g.add(pt);
+  mesh(BG(2.35,0.12,2.15), new THREE.MeshStandardMaterial({color:0x4fc3f7,emissive:0x4fc3f7,emissiveIntensity:0.5}), g, 0,4.45,0);
+  // attracted metal pieces (rebar chunks)
+  for(let i=0;i<5;i++){
+    const hy = 2.5 + i*0.45;
+    const hx = (Math.random()-0.5)*1.4;
+    mesh(BG(0.25,0.12,0.12), M.red, g, hx,hy,0, 0,0,Math.random()*0.6);
+  }
+  const hit = mesh(BG(8,5.5,3), new THREE.MeshStandardMaterial({visible:false}), g, 0,3,0);
+  return { group:g, clickMesh:hit };
+}
+
+// ④ VIBRATING SCREEN 1  x=-5
+function makeScreen(x, large=true) {
+  const g = new THREE.Group(); g.position.x = x;
+  const W=large?5.5:4.5, D=large?2.4:2.0, H=large?0.9:0.8;
+  const INCLINE = -0.24;
+  // side frames
+  for(const sz of [D/2,-D/2]) mesh(BG(W,H,0.15), M.steel, g, 0,H/2+1.2,sz, 0,0,INCLINE);
+  // deck surface
+  mesh(BG(W,0.14,D-0.3), M.steelDk, g, 0,H/2+1.2+H/2+0.07,0, 0,0,INCLINE);
+  // grid overlay
+  addScreenGrid(g, W-0.3, D-0.4, 0, H+1.45, 0, INCLINE);
+  // legs
+  for(const [lx,lz] of [[-W/2+0.3,D/2-0.2],[W/2-0.3,D/2-0.2],[-W/2+0.3,-D/2+0.2],[W/2-0.3,-D/2+0.2]])
+    mesh(CG(0.1,0.1,1.2), M.steel, g, lx,0.6,lz);
+  // output chute (low end)
+  mesh(BG(0.8,0.12,D), M.steelDk, g, W/2+0.3,1.2,0, 0,0,INCLINE+0.4);
+  // fine collection bin (below, high end)
+  mesh(BG(W*0.4,0.8,D), M.hopper, g, -W/2*0.5,0.4,0);
+  // drive motor (small)
+  mesh(CG(0.22,0.22,0.7,10), M.steel, g, 0,H+1.2+H*0.3, D/2+0.1, Math.PI/2,0,0);
+  const hit = mesh(BG(W+1,3.5,D+0.5), new THREE.MeshStandardMaterial({visible:false}), g, 0,1.7,0);
+  return { group:g, clickMesh:hit };
+}
+
+// ⑤ AIR JIG  x=1
+function makeAirJig(x) {
+  const g = new THREE.Group(); g.position.x = x;
+  // base body
+  mesh(BG(3.2,1.2,3.0), M.steel, g,  0,0.6,0);
+  mesh(BG(3.2,0.18,3.0), M.accent, g,0,1.2,0); // orange base line
+  // plenum chambers (bottom)
+  for(let i=0;i<4;i++) mesh(BG(0.6,0.5,2.8), M.hopper, g, -1.35+i*0.9,0.25,0);
+  // three stacked decks (the key visual from the sketch)
+  const deckMat = new THREE.MeshStandardMaterial({color:0x5a6a76,roughness:0.5,metalness:0.5,transparent:true,opacity:0.92});
+  mesh(BG(3.0,0.14,2.8), deckMat, g, 0,1.75,0);
+  mesh(BG(2.7,0.14,2.5), deckMat, g, 0,2.35,0);
+  mesh(BG(2.4,0.14,2.2), deckMat, g, 0,2.95,0);
+  // grid on decks
+  addScreenGrid(g, 2.8, 2.6, 0,1.83,0, 0);
+  addScreenGrid(g, 2.5, 2.3, 0,2.43,0, 0);
+  // top cover
+  mesh(BG(3.2,0.22,3.0), M.hopper, g, 0,3.55,0);
+  // input hopper (left top)
+  mesh(BG(1.2,1.0,1.2), M.hopper, g, -1.3,4.3,0);
+  mesh(BG(0.7,0.5,0.8),  M.steelDk, g, -1.3,3.9,0);
+  // light reject chute (left, going up and outward)
+  mesh(BG(0.7,0.14,1.2), M.accent, g, -1.8,3.3,0, 0,0,-0.6);
+  mesh(BG(0.7,0.14,1.2), M.accent, g, -2.5,4.0,0, 0,0,-0.3);
+  // heavy output chute (right, going down)
+  mesh(BG(0.7,0.14,1.2), M.steelDk, g, 1.8,2.2,0, 0,0, 0.4);
+  // air vents at base
+  for(let i=0;i<3;i++) mesh(BG(0.25,0.3,2.8), M.steelDk, g, -0.9+i*0.9,-0.1,0);
+  const hit = mesh(BG(3.5,5.5,3.2), new THREE.MeshStandardMaterial({visible:false}), g, 0,2.5,0);
+  return { group:g, clickMesh:hit };
+}
+
+// ⑥ IMPACT CRUSHER  x=7
+function makeImpactCrusher(x) {
+  const g = new THREE.Group(); g.position.x = x;
+  // main body
+  mesh(BG(2.8,3.5,2.5), M.steel,  g, 0,1.75,0);
+  // front face panel (recessed, showing internal impact curtains)
+  mesh(BG(2.6,3.3,0.12), M.hopper, g, 0,1.75,-1.14);
+  for(let i=0;i<3;i++) mesh(BG(2.3,0.28,0.14), new THREE.MeshStandardMaterial({color:0xc0392b,roughness:0.4}), g, 0,0.7+i*0.88,-1.13);
+  for(let i=0;i<3;i++) mesh(BG(2.3,0.14,0.14), new THREE.MeshStandardMaterial({color:0xe67e22,roughness:0.3}), g, 0,0.9+i*0.88,-1.13);
+  // top lid (slightly wider with bolts)
+  mesh(BG(3.1,0.4,2.7), M.steelDk, g, 0,3.7,0);
+  // adjustment bolts (6)
+  for(const [bx_,bz] of [[-1,0.9],[-0.3,0.9],[0.4,0.9],[-1,-0.9],[-0.3,-0.9],[0.4,-0.9]]) {
+    mesh(CG(0.09,0.09,0.55,8), M.steel,  g, bx_,4.2,bz);
+    mesh(CG(0.2,0.2,0.18,6),   M.steelDk,g, bx_,4.5,bz);
+  }
+  // top hopper
+  mesh(BG(1.8,1.4,2.0),  M.hopper, g, 0,5.2,0);
+  mesh(BG(2.2,0.4,2.3),  M.hopper, g, 0,4.6,0);
+  // motor cylinder (horizontal, teal) on right side
+  mesh(CG(0.62,0.62,1.3,16), M.teal, g, 2.25,1.8,0, 0,0,Math.PI/2);
+  // belt (TorusGeometry)
+  const torus = new THREE.Mesh(new THREE.TorusGeometry(1.0,0.1,6,24), M.rubber);
+  torus.position.set(1.7,1.8,0); torus.rotation.z=Math.PI/2; g.add(torus); torus.castShadow=true;
+  // belt guard cover
+  mesh(BG(0.12,2.2,0.9), M.hopper, g, 1.68,1.8,0.5);
+  // bottom chute
+  mesh(BG(1.4,0.12,2.2), M.steelDk, g, 0.3,0.35,0, 0,0,-0.38);
+  // side accent stripe
+  mesh(BG(0.12,3.5,2.5), M.accent, g, 1.42,1.75,0);
+  const hit = mesh(BG(4,6.5,3), new THREE.MeshStandardMaterial({visible:false}), g, 0.4,3.2,0);
+  return { group:g, clickMesh:hit };
+}
+
+// ⑧ CONCRETE MIXER TRUCK  x=20
+function makeMixerTruck(x) {
+  const g = new THREE.Group(); g.position.x = x;
+  // cab
+  mesh(BG(2.5,2.3,2.3), M.orange, g, 1.1,1.15,0);
+  mesh(BG(2.5,0.5,2.3),  M.accent,g, 1.1,2.55,0);
+  mesh(BG(0.5,0.8,2.2),  M.white, g, 0.65,1.8,0); // windscreen
+  // chassis
+  mesh(BG(6.5,0.5,2.4), M.steelDk, g, -1.5,0.5,0);
+  // drum (rotating) — set up as named group for animation
+  const drumGrp = new THREE.Group();
+  drumGrp.position.set(-1.5,2.5,0); drumGrp.rotation.z=0.35; g.add(drumGrp);
+  mesh(CG(1.4,0.7,3.2,20), M.orange, drumGrp, 0,0,0);
+  // spiral ribs
+  for(let i=0;i<6;i++){
+    const t = new THREE.Mesh(new THREE.TorusGeometry(1.35,0.08,6,22), M.steelDk);
+    t.position.set(0,-1.2+i*0.48,0); drumGrp.add(t); t.castShadow=true;
+  }
+  // drum cap ends
+  mesh(CG(0.7,0.0,0.2,12), M.steelDk, drumGrp, 0,-1.6,0);
+  mesh(CG(1.4,1.4,0.2,12), M.steelDk, drumGrp, 0, 1.6,0);
+  // support frame
+  mesh(BG(0.2,1.5,2.2), M.steelDk, g, -0.4,1.3,0);
+  mesh(BG(0.2,1.5,2.2), M.steelDk, g, -2.6,1.3,0);
+  // wheels
+  for(const [wx,wz] of [[0.8,1.25],[0.8,-1.25],[-2.4,1.25],[-2.4,-1.25]])
+    mesh(CG(0.52,0.52,0.45,14), M.rubber, g, wx,0.52,wz, Math.PI/2,0,0);
+  // cement bags stacked beside truck
+  for(let i=0;i<3;i++){
+    const bz = (i-1)*0.55;
+    mesh(BG(0.9,0.35,0.5), M.white, g, 3.8,0.35+i*0.36,bz, 0,0,(i%2)*0.08);
+    mesh(BG(0.88,0.33,0.48), M.concrete, g, 3.8,0.36+i*0.36,bz);
+  }
+  // water tank
+  mesh(CG(0.4,0.4,1.0,12), M.navy, g, -3.0,1.0, 1.0, Math.PI/2,0,0);
+  g.userData.drumGrp = drumGrp;
+  const hit = mesh(BG(7,3.5,2.8), new THREE.MeshStandardMaterial({visible:false}), g, -1.5,1.5,0);
+  return { group:g, clickMesh:hit };
+}
+
+// ─────────────────────────────────────────────────
+//  CONVEYOR BELT builder
+// ─────────────────────────────────────────────────
+function makeConveyor(x, len, height, angle, z=0) {
+  const g = new THREE.Group(); g.position.set(x, height, z);
+  mesh(BG(len,0.28,2.0), M.steelDk, g, 0,0,0, 0,0,angle);
+  mesh(BG(len-0.3,0.12,1.85), M_BELT, g, 0,0.2,0, 0,0,angle);
+  // rollers at ends
+  for(const ex of [-len/2+0.15, len/2-0.15])
+    mesh(CG(0.22,0.22,2.1,10), M.steel, g, ex,0.1,0, Math.PI/2,0,0);
+  // support legs
+  for(const lx of [-len/2+0.4, len/2-0.4]) {
+    const legH = height + 0.5;
+    mesh(BG(0.15,legH,0.15), M.steel, g, lx,-legH/2-0.06,-0.9);
+    mesh(BG(0.15,legH,0.15), M.steel, g, lx,-legH/2-0.06, 0.9);
+  }
+  return g;
+}
+
+// ─────────────────────────────────────────────────
+//  BUILD THE SCENE
+// ─────────────────────────────────────────────────
+const xs   = [-24,-17,-11,-5, 1, 7,13,20];
+const stationObjs = [
+  makeTruckIn(xs[0]),
+  makeJawCrusher(xs[1]),
+  makeMagnet(xs[2]),
+  makeScreen(xs[3], true),
+  makeAirJig(xs[4]),
+  makeImpactCrusher(xs[5]),
+  makeScreen(xs[6], false),
+  makeMixerTruck(xs[7]),
+];
+stationObjs.forEach(s => scene.add(s.group));
+
+// Conveyors between stations (approximate midpoints)
+scene.add(makeConveyor(-20.5, 4.5, 1.8, 0.12));   // jaw → magnet
+scene.add(makeConveyor(-8.0,  4.5, 1.8, 0));       // screen1 → airjig
+scene.add(makeConveyor(4.0,   4.5, 1.8, 0));       // airjig → impact
+scene.add(makeConveyor(10.0,  4.5, 1.8, 0));       // impact → screen2
+scene.add(makeConveyor(16.5,  4.5, 1.8, 0));       // screen2 → mixer
+
+// Arrow signs on the ground showing flow direction
+const arrowMat = new THREE.MeshStandardMaterial({color:0xd4860a,roughness:0.8});
+for(const ax of [-20.5,-8,4,10,16.5]) {
+  mesh(BG(0.3,0.08,0.8), arrowMat, scene, ax,0.05,0);
+  mesh(BG(0.6,0.08,0.3), arrowMat, scene, ax+0.4,0.05, 0.3, 0,0, 0.5);
+  mesh(BG(0.6,0.08,0.3), arrowMat, scene, ax+0.4,0.05,-0.3, 0,0,-0.5);
+}
+
+// ─────────────────────────────────────────────────
+//  PARTICLE FLOW
+// ─────────────────────────────────────────────────
+// Main processing path
+const MAIN_CURVE = new THREE.CatmullRomCurve3([
+  new THREE.Vector3(-26,2.2,0),
+  new THREE.Vector3(-22,3.8,0),
+  new THREE.Vector3(-19,3.0,0),
+  new THREE.Vector3(-15,3.2,0),
+  new THREE.Vector3(-11,3.6,0),
+  new THREE.Vector3(-8, 3.0,0),
+  new THREE.Vector3(-5, 3.2,0),
+  new THREE.Vector3(-2, 2.8,0),
+  new THREE.Vector3( 1, 3.2,0),
+  new THREE.Vector3( 4, 2.8,0),
+  new THREE.Vector3( 7, 4.0,0),
+  new THREE.Vector3(10, 3.2,0),
+  new THREE.Vector3(13, 3.0,0),
+  new THREE.Vector3(16, 2.6,0),
+  new THREE.Vector3(20, 3.2,0),
+]);
+
+// Reject path (air jig light fraction)
+const REJECT_CURVE = new THREE.CatmullRomCurve3([
+  new THREE.Vector3( 0, 3.4,-0.2),
+  new THREE.Vector3(-1, 4.5, 1.2),
+  new THREE.Vector3(-2, 6.5, 2.5),
+  new THREE.Vector3(-3, 8.5, 3.5),
+  new THREE.Vector3(-4,10.0, 4.0),
+]);
+
+// Metal path (magnet attraction)
+const METAL_CURVE = new THREE.CatmullRomCurve3([
+  new THREE.Vector3(-11, 2.5,  0.3),
+  new THREE.Vector3(-11, 4.0,  0.1),
+  new THREE.Vector3(-11, 4.8, -0.1),
+  new THREE.Vector3(-11, 5.2,  0  ),
+]);
+
+const PARTICLES = [];
+const pGeo = new THREE.SphereGeometry(0.18, 7, 6);
+const pGeoSm = new THREE.SphereGeometry(0.13, 6, 5);
+
+// Main particles
+for(let i=0;i<28;i++) {
+  const c = i<18 ? 0x9e9282 : 0x7c8e9e;
+  const m = new THREE.Mesh(pGeo, new THREE.MeshStandardMaterial({color:c,roughness:0.9,metalness:0}));
+  scene.add(m);
+  PARTICLES.push({ mesh:m, t: i/28, speed:0.0012+Math.random()*0.0006, curve:MAIN_CURVE, fade:false });
+}
+// Reject particles
+for(let i=0;i<7;i++) {
+  const m = new THREE.Mesh(pGeoSm, new THREE.MeshStandardMaterial({color:0xf4c430,roughness:0.85,transparent:true,opacity:1}));
+  scene.add(m);
+  PARTICLES.push({ mesh:m, t: i/7, speed:0.004+Math.random()*0.002, curve:REJECT_CURVE, fade:true });
+}
+// Metal particles
+for(let i=0;i<6;i++) {
+  const m = new THREE.Mesh(pGeoSm, new THREE.MeshStandardMaterial({color:0xe74c3c,roughness:0.3,metalness:0.7,transparent:true,opacity:1}));
+  scene.add(m);
+  PARTICLES.push({ mesh:m, t: i/6, speed:0.005+Math.random()*0.003, curve:METAL_CURVE, fade:true });
+}
+
+// ─────────────────────────────────────────────────
+//  HTML LABELS
+// ─────────────────────────────────────────────────
+const labelsDiv = document.getElementById('labels');
+const labelEls = STATIONS.map((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'lbl';
+  div.dataset.idx = i;
+  div.innerHTML = `<span class="num">${i+1}</span>${s.name}`;
+  labelsDiv.appendChild(div);
+  return div;
+});
+
+const tmpV3 = new THREE.Vector3();
+function updateLabels() {
+  STATIONS.forEach((s, i) => {
+    const grp = stationObjs[i].group;
+    tmpV3.set(0, s.labelH, 0).applyMatrix4(grp.matrixWorld);
+    tmpV3.project(camera);
+    if(tmpV3.z > 1) { labelEls[i].style.display='none'; return; }
+    const px = (tmpV3.x * 0.5 + 0.5) * wrap.clientWidth;
+    const py = (-(tmpV3.y) * 0.5 + 0.5) * wrap.clientHeight;
+    labelEls[i].style.display = 'flex';
+    labelEls[i].style.left = px + 'px';
+    labelEls[i].style.top  = py + 'px';
+  });
+}
+
+// ─────────────────────────────────────────────────
+//  RAYCASTER + INTERACTION
+// ─────────────────────────────────────────────────
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let hovIdx = -1, selIdx = -1;
+
+const panel = document.getElementById('panel');
+const pStep = document.getElementById('p-step');
+const pName = document.getElementById('p-name');
+const pDesc = document.getElementById('p-desc');
+const pTech = document.getElementById('p-tech');
+
+function openPanel(i) {
+  selIdx = i;
+  const s = STATIONS[i];
+  pStep.textContent = `STATION ${i+1} / ${STATIONS.length} — ${s.step}`;
+  pName.textContent = s.name;
+  pDesc.textContent = s.desc;
+  pTech.innerHTML = `<b>Technical specs:</b><br>${s.tech}`;
+  panel.classList.add('open');
+  labelEls.forEach((l,li) => l.classList.toggle('hot', li===i));
+}
+function closePanel() {
+  selIdx = -1;
+  panel.classList.remove('open');
+  labelEls.forEach(l => l.classList.remove('hot'));
+}
+document.getElementById('close').addEventListener('click', closePanel);
+
+canvas.addEventListener('pointermove', e => {
+  mouse.set((e.clientX/wrap.clientWidth)*2-1, -(e.clientY/wrap.clientHeight)*2+1);
+  raycaster.setFromCamera(mouse, camera);
+  const hits = raycaster.intersectObjects(stationObjs.map(s=>s.clickMesh), false);
+  const newHov = hits.length ? parseInt(hits[0].object.parent.userData.stationIdx ?? -1) : -1;
+  if(newHov !== hovIdx) {
+    hovIdx = newHov;
+    canvas.style.cursor = hovIdx >= 0 ? 'pointer' : 'default';
+  }
+});
+canvas.addEventListener('click', e => {
+  mouse.set((e.clientX/wrap.clientWidth)*2-1, -(e.clientY/wrap.clientHeight)*2+1);
+  raycaster.setFromCamera(mouse, camera);
+  const hits = raycaster.intersectObjects(stationObjs.map(s=>s.clickMesh), false);
+  if(!hits.length) return;
+  const grpIdx = stationObjs.findIndex(s=>s.clickMesh===hits[0].object);
+  if(grpIdx >= 0) openPanel(grpIdx);
+});
+// Store station index in each group for raycaster lookup
+stationObjs.forEach((s,i) => { s.clickMesh.parent.userData.stationIdx = i; s.group.userData.stationIdx = i; });
+
+document.getElementById('reset-cam').addEventListener('click', () => {
+  camera.position.copy(DEFAULT_CAM);
+  controls.target.set(-2,2,0);
+  controls.update();
+});
+
+// ─────────────────────────────────────────────────
+//  ANIMATION LOOP
+// ─────────────────────────────────────────────────
+const clock = new THREE.Clock();
+
+(function animate() {
+  requestAnimationFrame(animate);
+  const dt = clock.getDelta();
+
+  // Animate belt texture
+  beltTex.offset.x -= 0.006;
+
+  // Animate mixer drum
+  const mTruck = stationObjs[7].group;
+  if(mTruck.userData.drumGrp) mTruck.userData.drumGrp.rotation.y += 0.6 * dt;
+
+  // Animate particles
+  PARTICLES.forEach(p => {
+    p.t = (p.t + p.speed) % 1;
+    const pos = p.curve.getPoint(p.t);
+    p.mesh.position.copy(pos);
+    if(p.fade) {
+      p.mesh.material.opacity = Math.sin(p.t * Math.PI) * 0.95;
+    }
+  });
+
+  controls.update();
+  updateLabels();
+  renderer.render(scene, camera);
+})();
+
+// ─────────────────────────────────────────────────
+//  RESIZE
+// ─────────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  const W = wrap.clientWidth, H = wrap.clientHeight;
+  camera.aspect = W / H;
+  camera.updateProjectionMatrix();
+  renderer.setSize(W, H);
+});
+</script>
+</body>
+</html>
