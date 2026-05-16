@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReBuild3D — House design library</title>
+  <style>
+    :root {
+      --bg: #e8eaed;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #dadce0;
+      --accent: #c0392b;
+      --accent-hover: #a33228;
+      --nav: #0d0d0d;
+      --brand-orange: #ff6b35;
+      --brand-navy: #1b3a5c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.45;
+    }
+
+    a { color: var(--brand-navy); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .top-bar {
+      background: var(--nav);
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .top-bar .brand { font-weight: 800; letter-spacing: 0.06em; font-size: 0.78rem; text-transform: uppercase; }
+    .top-bar .brand span { color: var(--brand-orange); }
+
+    .top-nav { display: flex; gap: 1.25rem; font-size: 0.8rem; }
+    .top-nav a { color: rgba(255,255,255,0.85); }
+    .top-nav a:hover { color: #fff; }
+
+    .cta-banner {
+      background: var(--accent);
+      color: #fff;
+      text-align: center;
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+    }
+    .cta-banner a { color: #fff; font-weight: 700; margin-left: 0.35rem; }
+
+    .toolbar {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.25rem 1.25rem 0.5rem;
+    }
+
+    .toolbar-inner {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .search-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .search-wrap { flex: 1; min-width: 200px; position: relative; }
+    .search-wrap input {
+      width: 100%;
+      padding: 0.65rem 0.85rem 0.65rem 2.25rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.95rem;
+      background: #f1f3f4;
+    }
+    .search-wrap::before {
+      content: '🔍';
+      position: absolute;
+      left: 0.65rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.85rem;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .reset-link {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+    }
+    .reset-link:hover { text-decoration: underline; }
+
+    .sort-select {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 4px;
+      padding: 0.5rem 0.65rem;
+      font-size: 0.85rem;
+      font-family: inherit;
+      color: var(--text);
+      min-width: 180px;
+    }
+
+    .filter-group { border-top: 1px solid #eee; padding-top: 0.85rem; }
+
+    .filter-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+      display: block;
+    }
+
+    .tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+    .tab {
+      font-size: 0.82rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: #fafafa;
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .tab:hover { background: #f0f0f0; }
+    .tab[aria-pressed="true"] { background: var(--nav); color: #fff; border-color: var(--nav); }
+
+    .main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1rem 1.25rem 3rem;
+    }
+
+    .result-count { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.85rem; }
+
+    .active-filters { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 0.9rem; }
+
+    .chip {
+      font-size: 0.74rem;
+      border: 1px solid #d8d8d8;
+      background: #fff;
+      color: #333;
+      border-radius: 999px;
+      padding: 0.2rem 0.55rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.15rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+    }
+    .card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+
+    .card-thumb {
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(145deg, #f0f4f8, #e4ecf4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .card-body {
+      padding: 0.85rem 1rem 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .card-title { font-size: 0.98rem; font-weight: 700; line-height: 1.25; }
+    .card-meta { font-size: 0.78rem; color: var(--muted); }
+
+    .card-badges { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.1rem; }
+
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: 0.12rem 0.4rem;
+      border-radius: 999px;
+      background: #f1f3f4;
+      color: #374151;
+      border: 1px solid #e5e7eb;
+    }
+    .badge.religion { background: #fff3f2; border-color: #ffd8d4; color: #9d271c; }
+    .badge.climate  { background: #eef6ff; border-color: #d6e8ff; color: #184f8c; }
+
+    .card-tags {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: auto;
+      padding-top: 0.5rem;
+      border-top: 1px solid #f0f0f0;
+      line-height: 1.35;
+    }
+
+    /* Modal */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .backdrop.open { display: flex; }
+
+    .modal {
+      background: var(--card);
+      border-radius: 6px;
+      max-width: 860px;
+      width: 100%;
+      max-height: 95vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    .modal-head {
+      padding: 1rem 1.15rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .modal-head h2 { font-size: 1.15rem; }
+    .modal-head p  { font-size: 0.86rem; color: var(--muted); margin-top: 0.25rem; }
+
+    .close-btn {
+      border: none;
+      background: #f0f0f0;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .close-btn:hover { background: #e5e5e5; }
+
+    .view-toggle { display: flex; gap: 0; padding: 0.75rem 1.15rem 0; }
+    .view-toggle button {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid var(--border);
+      background: #fafafa;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .view-toggle button:first-child { border-radius: 4px 0 0 4px; }
+    .view-toggle button:last-child  { border-radius: 0 4px 4px 0; margin-left: -1px; }
+    .view-toggle button[aria-pressed="true"] {
+      background: var(--nav);
+      color: #fff;
+      border-color: var(--nav);
+      z-index: 1;
+    }
+
+    .viewer-wrap {
+      padding: 0.75rem 1.15rem 1.15rem;
+      flex: 1;
+      min-height: 280px;
+      overflow: auto;
+    }
+
+    .viewer-img {
+      width: 100%;
+      height: auto;
+      max-height: 52vh;
+      object-fit: contain;
+      border-radius: 4px;
+      background: linear-gradient(145deg, #f0f4f8, #e8f0f8);
+      display: block;
+    }
+
+    .modal-foot {
+      padding: 0 1.15rem 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <header class="top-bar">
+    <div class="brand">Re<span>Build</span>3D — Library</div>
+    <nav class="top-nav">
+      <a href="index.html">Business plan</a>
+      <a href="house-library.html" aria-current="page">House library</a>
+    </nav>
+  </header>
+  <div class="cta-banner">
+    Survivor-chosen layouts — culture, climate, and family needs. <a href="index.html">Learn about ReBuild3D</a>
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <div class="search-row">
+        <div class="search-wrap">
+          <input type="search" id="search" placeholder="Search by name or feature…" autocomplete="off">
+        </div>
+        <select id="sortBy" class="sort-select" aria-label="Sort designs">
+          <option value="relevance">Sort: Relevance</option>
+          <option value="sqft-asc">Smallest size</option>
+          <option value="sqft-desc">Largest size</option>
+          <option value="storeys-asc">Lowest storeys</option>
+          <option value="storeys-desc">Highest storeys</option>
+        </select>
+        <button type="button" class="reset-link" id="resetFilters">Reset all filters</button>
+      </div>
+      <div id="filterMount"></div>
+    </div>
+  </div>
+
+  <main class="main">
+    <p class="result-count" id="resultCount">Loading designs…</p>
+    <div id="activeFilters" class="active-filters"></div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <div class="backdrop" id="backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <h2 id="modalTitle"></h2>
+          <p id="modalBlurb"></p>
+        </div>
+        <button type="button" class="close-btn" id="closeModal" aria-label="Close">×</button>
+      </div>
+      <div class="view-toggle">
+        <button type="button" id="btnExterior" aria-pressed="true">Exterior view</button>
+        <button type="button" id="btnInterior" aria-pressed="false">Interior / floor plan</button>
+      </div>
+      <div class="viewer-wrap">
+        <img id="modalImg" class="viewer-img" src="" alt="" loading="lazy">
+      </div>
+      <div class="modal-foot" id="modalFoot"></div>
+    </div>
+  </div>
+
+  <script>
+    const FILTER_OPTIONS = {
+      bedrooms: [
+        { value: 'all', label: 'All sizes' },
+        { value: '2-bed', label: '2 bedroom' },
+        { value: '3-bed', label: '3 bedroom' },
+        { value: '4-bed', label: '4 bedroom' },
+      ],
+      religion: [
+        { value: 'all', label: 'All' },
+        { value: 'general', label: 'General' },
+        { value: 'muslim-prayer', label: 'Muslim (prayer room)' },
+      ],
+      climate: [
+        { value: 'all', label: 'All climates' },
+        { value: 'hot-humid',          label: 'Hot & humid' },
+        { value: 'temperate',          label: 'Temperate' },
+        { value: 'cold-winter',        label: 'Cold winter' },
+        { value: 'coastal-high-wind',  label: 'Coastal / high wind' },
+        { value: 'urban-narrow-lot',   label: 'Urban / narrow lot' },
+        { value: 'flood-resilient',    label: 'Flood-resilient (raised)' },
+      ],
+      prefs: [
+        { value: 'all',               label: 'Any preference' },
+        { value: 'single-storey',     label: 'Single storey' },
+        { value: 'multi-generational',label: 'Multi-generational' },
+        { value: 'urban-infill',      label: 'Urban infill' },
+        { value: 'wheelchair-friendly',label: 'Wheelchair-friendly' },
+      ],
+      roomSize: [
+        { value: 'all',    label: 'Any size' },
+        { value: 'small',  label: 'Small  (< 1,000 sq ft)' },
+        { value: 'medium', label: 'Medium (1,000 – 1,500)' },
+        { value: 'large',  label: 'Large  (> 1,500 sq ft)' },
+      ],
+    };
+
+    const FILTER_LABELS = {
+      bedrooms: 'Bedrooms',
+      religion: 'Religion & culture',
+      climate:  'Climate & site',
+      prefs:    'Preferences',
+      roomSize: 'Room size',
+    };
+
+    const state = {
+      bedrooms: 'all',
+      religion: 'all',
+      climate:  'all',
+      prefs:    'all',
+      roomSize: 'all',
+      search:   '',
+      sortBy:   'relevance',
+      houses:   [],
+      selected: null,
+      view:     'exterior',
+    };
+
+    const climateLabels = {
+      'hot-humid':         'Hot & humid',
+      temperate:           'Temperate',
+      'cold-winter':       'Cold winter',
+      'coastal-high-wind': 'Coastal / high wind',
+      'urban-narrow-lot':  'Urban / narrow lot',
+      'flood-resilient':   'Flood-resilient',
+    };
+
+    function sqftBucket(sqft) {
+      if (sqft < 1000) return 'small';
+      if (sqft <= 1500) return 'medium';
+      return 'large';
+    }
+
+    function optionLabel(group, value) {
+      const item = FILTER_OPTIONS[group]?.find(o => o.value === value);
+      return item ? item.label : value;
+    }
+
+    function updateActiveFilters() {
+      const mount = document.getElementById('activeFilters');
+      mount.innerHTML = '';
+      const active = [];
+      if (state.bedrooms !== 'all') active.push(`Bedrooms: ${optionLabel('bedrooms', state.bedrooms)}`);
+      if (state.religion !== 'all') active.push(`Religion: ${optionLabel('religion', state.religion)}`);
+      if (state.climate  !== 'all') active.push(`Climate: ${optionLabel('climate', state.climate)}`);
+      if (state.prefs    !== 'all') active.push(`Preference: ${optionLabel('prefs', state.prefs)}`);
+      if (state.roomSize !== 'all') active.push(`Size: ${optionLabel('roomSize', state.roomSize)}`);
+      if (state.search.trim())      active.push(`Search: "${state.search.trim()}"`);
+      if (state.sortBy !== 'relevance') {
+        const sortText = document.querySelector('#sortBy option:checked')?.textContent || state.sortBy;
+        active.push(sortText.replace('Sort: ', ''));
+      }
+      for (const label of active) {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.textContent = label;
+        mount.appendChild(chip);
+      }
+    }
+
+    function buildFilters() {
+      const mount = document.getElementById('filterMount');
+      mount.innerHTML = '';
+      for (const [key, opts] of Object.entries(FILTER_OPTIONS)) {
+        const wrap = document.createElement('div');
+        wrap.className = 'filter-group';
+        const lab = document.createElement('span');
+        lab.className = 'filter-label';
+        lab.textContent = FILTER_LABELS[key];
+        const tabs = document.createElement('div');
+        tabs.className = 'tabs';
+        tabs.dataset.group = key;
+        for (const o of opts) {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'tab';
+          b.textContent = o.label;
+          b.dataset.value = o.value;
+          b.setAttribute('aria-pressed', o.value === 'all' ? 'true' : 'false');
+          b.addEventListener('click', () => {
+            state[key] = o.value;
+            tabs.querySelectorAll('.tab').forEach(t =>
+              t.setAttribute('aria-pressed', t.dataset.value === o.value ? 'true' : 'false')
+            );
+            renderGrid();
+          });
+          tabs.appendChild(b);
+        }
+        wrap.appendChild(lab);
+        wrap.appendChild(tabs);
+        mount.appendChild(wrap);
+      }
+    }
+
+    function matchesFilters(h) {
+      const t = h.tags;
+      if (state.bedrooms !== 'all' && t.bedrooms !== state.bedrooms) return false;
+      if (state.religion !== 'all' && t.religion !== state.religion) return false;
+      if (state.climate  !== 'all' && t.climate  !== state.climate)  return false;
+      if (state.prefs    !== 'all' && !(t.prefs || []).includes(state.prefs)) return false;
+      if (state.roomSize !== 'all' && sqftBucket(h.stats.sqft) !== state.roomSize) return false;
+      if (state.search.trim()) {
+        const q = state.search.trim().toLowerCase();
+        const blob = [h.title, h.blurb, t.bedrooms, t.religion, t.climate, ...(t.prefs || [])]
+          .join(' ').toLowerCase();
+        if (!blob.includes(q)) return false;
+      }
+      return true;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('grid');
+      const countEl = document.getElementById('resultCount');
+      const list = state.houses.filter(matchesFilters).slice();
+      if (state.sortBy === 'sqft-asc')     list.sort((a,b) => a.stats.sqft - b.stats.sqft);
+      if (state.sortBy === 'sqft-desc')    list.sort((a,b) => b.stats.sqft - a.stats.sqft);
+      if (state.sortBy === 'storeys-asc')  list.sort((a,b) => a.stats.storeys - b.stats.storeys);
+      if (state.sortBy === 'storeys-desc') list.sort((a,b) => b.stats.storeys - a.stats.storeys);
+      countEl.textContent = list.length === 1
+        ? '1 design matches your filters'
+        : `${list.length} designs match your filters`;
+      updateActiveFilters();
+
+      grid.innerHTML = '';
+      if (!list.length) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = 'No designs match — try widening your filters.';
+        grid.appendChild(empty);
+        return;
+      }
+
+      for (const h of list) {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.addEventListener('click', () => openModal(h));
+
+        const thumb = document.createElement('div');
+        thumb.className = 'card-thumb';
+        const img = document.createElement('img');
+        img.src = h.images.exterior;
+        img.alt = h.title;
+        img.loading = 'lazy';
+        thumb.appendChild(img);
+
+        const body = document.createElement('div');
+        body.className = 'card-body';
+
+        const title = document.createElement('div');
+        title.className = 'card-title';
+        title.textContent = h.title;
+
+        const badges = document.createElement('div');
+        badges.className = 'card-badges';
+        const climateBadge = document.createElement('span');
+        climateBadge.className = 'badge climate';
+        climateBadge.textContent = climateLabels[h.tags.climate] || h.tags.climate;
+        const religionBadge = document.createElement('span');
+        religionBadge.className = 'badge religion';
+        religionBadge.textContent = optionLabel('religion', h.tags.religion);
+        badges.appendChild(climateBadge);
+        badges.appendChild(religionBadge);
+
+        const meta = document.createElement('div');
+        meta.className = 'card-meta';
+        meta.textContent = `${h.stats.storeys} storey · ${h.stats.sqft.toLocaleString()} sq ft`;
+
+        const tags = document.createElement('div');
+        tags.className = 'card-tags';
+        const cl = climateLabels[h.tags.climate] || h.tags.climate;
+        tags.textContent = [h.tags.bedrooms.replace('-', ' '), cl, ...(h.tags.prefs || [])].join(' · ');
+
+        body.appendChild(title);
+        body.appendChild(badges);
+        body.appendChild(meta);
+        body.appendChild(tags);
+        card.appendChild(thumb);
+        card.appendChild(body);
+        grid.appendChild(card);
+      }
+    }
+
+    function setView(h, view) {
+      const img = document.getElementById('modalImg');
+      img.src = view === 'interior' ? h.images.interior : h.images.exterior;
+      img.alt = `${h.title} — ${view} view`;
+    }
+
+    function openModal(h) {
+      state.selected = h;
+      state.view = 'exterior';
+      document.getElementById('modalTitle').textContent = h.title;
+      document.getElementById('modalBlurb').textContent = h.blurb;
+      const cl = climateLabels[h.tags.climate] || h.tags.climate;
+      document.getElementById('modalFoot').textContent =
+        `Climate & site: ${cl} · ${h.tags.bedrooms.replace('-',' ')} · Tags: ${(h.tags.prefs||[]).join(', ')||'—'} · Concept design`;
+      document.getElementById('btnExterior').setAttribute('aria-pressed', 'true');
+      document.getElementById('btnInterior').setAttribute('aria-pressed', 'false');
+      const bd = document.getElementById('backdrop');
+      bd.hidden = false;
+      bd.classList.add('open');
+      setView(h, 'exterior');
+    }
+
+    function closeModal() {
+      const bd = document.getElementById('backdrop');
+      bd.classList.remove('open');
+      bd.hidden = true;
+      document.getElementById('modalImg').src = '';
+      state.selected = null;
+    }
+
+    document.getElementById('btnExterior').addEventListener('click', () => {
+      if (!state.selected) return;
+      state.view = 'exterior';
+      document.getElementById('btnExterior').setAttribute('aria-pressed', 'true');
+      document.getElementById('btnInterior').setAttribute('aria-pressed', 'false');
+      setView(state.selected, 'exterior');
+    });
+
+    document.getElementById('btnInterior').addEventListener('click', () => {
+      if (!state.selected) return;
+      state.view = 'interior';
+      document.getElementById('btnExterior').setAttribute('aria-pressed', 'false');
+      document.getElementById('btnInterior').setAttribute('aria-pressed', 'true');
+      setView(state.selected, 'interior');
+    });
+
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('backdrop').addEventListener('click', e => {
+      if (e.target.id === 'backdrop') closeModal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    document.getElementById('search').addEventListener('input', e => {
+      state.search = e.target.value;
+      renderGrid();
+    });
+
+    document.getElementById('sortBy').addEventListener('change', e => {
+      state.sortBy = e.target.value;
+      renderGrid();
+    });
+
+    document.getElementById('resetFilters').addEventListener('click', () => {
+      state.bedrooms = state.religion = state.climate = state.prefs = state.roomSize = 'all';
+      state.search = '';
+      state.sortBy = 'relevance';
+      document.getElementById('search').value = '';
+      document.getElementById('sortBy').value = 'relevance';
+      buildFilters();
+      renderGrid();
+    });
+
+    async function init() {
+      buildFilters();
+      try {
+        const res = await fetch('data/houses.json');
+        if (!res.ok) throw new Error(res.status);
+        state.houses = await res.json();
+      } catch {
+        document.getElementById('resultCount').textContent = 'Could not load catalog.';
+        document.getElementById('grid').innerHTML =
+          '<div class="empty-state">Serve this folder over HTTP — e.g. <code>python -m http.server</code> from the ReBuild3D folder — so <code>data/houses.json</code> can load.</div>';
+        return;
+      }
+      renderGrid();
+    }
+
+    init();
+  </script>
+</body>
+</html>

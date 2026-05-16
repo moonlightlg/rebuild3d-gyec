@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f2fb"/>
+      <stop offset="100%" stop-color="#f5f8fb"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#d4e0ec" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="560" fill="url(#sky)"/>
+  <rect width="800" height="560" fill="url(#grid)" opacity="0.4"/>
+  <!-- ground shadow -->
+  <ellipse cx="400" cy="470" rx="220" ry="30" fill="#c8d8e8" opacity="0.4"/>
+  <polygon points="400.0,280.0 524.7,352.0 420.8,412.0 296.1,340.0" fill="#e8f0fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="410.4" y="350.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Living / Dining (open plan)</text>
+<polygon points="524.7,352.0 628.6,412.0 566.3,448.0 462.4,388.0" fill="#e8faf0" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="545.5" y="404.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Kitchen</text>
+<polygon points="628.6,412.0 691.0,448.0 587.1,508.0 524.7,472.0" fill="#f0e8fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="607.8" y="464.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bath (accessible)</text>
+<polygon points="296.1,340.0 400.0,400.0 275.3,472.0 171.4,412.0" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="285.7" y="410.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 1 (accessible)</text>
+<polygon points="400.0,400.0 483.1,448.0 400.0,496.0 316.9,448.0" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="400.0" y="452.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 2</text>
+<polygon points="483.1,448.0 566.3,496.0 483.1,544.0 400.0,496.0" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="483.1" y="500.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 3</text>
+<polygon points="316.9,448.0 400.0,496.0 358.4,520.0 275.3,472.0" fill="#f0e8fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="337.6" y="488.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bath 2</text>
+<polygon points="400.0,496.0 483.1,544.0 441.6,568.0 358.4,520.0" fill="#f5f0e0" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="420.8" y="536.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Utility / Laundry</text>
+<polygon points="171.4,412.0 462.4,580.0 441.6,592.0 150.6,424.0" fill="#f5f5f5" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="306.5" y="506.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Wide corridor (1.5m min)</text>
+  <!-- labels -->
+  <rect x="0" y="498" width="800" height="62" fill="rgba(255,255,255,0.88)"/>
+  <line x1="0" y1="498" x2="800" y2="498" stroke="#b0c4de" stroke-width="1"/>
+  <text x="400" y="518" font-size="15" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" font-weight="700" text-anchor="middle">Concept Vale 3BR — Interior plan (accessible)</text>
+  <text x="400" y="536" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#466585" font-weight="400" text-anchor="middle">1 storey · 1,320 sq ft</text>
+  <rect x="253" y="518" width="114" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="310" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Wide corridors</text><rect x="361" y="518" width="79" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="400" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">3 bedroom</text><rect x="444" y="518" width="93" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="490" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">1,320 sq ft</text>
+</svg>

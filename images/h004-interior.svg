@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f2fb"/>
+      <stop offset="100%" stop-color="#f5f8fb"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#d4e0ec" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="560" fill="url(#sky)"/>
+  <rect width="800" height="560" fill="url(#grid)" opacity="0.4"/>
+  <!-- ground shadow -->
+  <ellipse cx="400" cy="470" rx="220" ry="30" fill="#c8d8e8" opacity="0.4"/>
+  <polygon points="400.0,290.0 512.6,355.0 422.5,407.0 309.9,342.0" fill="#e8f0fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="411.3" y="352.5" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Living room</text>
+<polygon points="512.6,355.0 625.2,420.0 571.1,451.2 458.5,386.2" fill="#e8faf0" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="541.9" y="407.1" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Kitchen / Dining</text>
+<polygon points="625.2,420.0 670.2,446.0 580.1,498.0 535.1,472.0" fill="#f5f0e0" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="602.6" y="463.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Utility</text>
+<polygon points="309.9,342.0 400.0,394.0 287.4,459.0 197.4,407.0" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="298.7" y="404.5" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 1 (master)</text>
+<polygon points="400.0,394.0 467.5,433.0 355.0,498.0 287.4,459.0" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="377.5" y="450.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 2</text>
+<polygon points="467.5,433.0 535.1,472.0 467.5,511.0 400.0,472.0" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="467.5" y="476.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 3</text>
+<polygon points="400.0,472.0 467.5,511.0 422.5,537.0 355.0,498.0" fill="#f0e8fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="411.3" y="508.5" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bath</text>
+<polygon points="535.1,472.0 580.1,498.0 467.5,563.0 422.5,537.0" fill="#f0e8fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="501.3" y="521.5" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">WC + Hall</text>
+  <!-- labels -->
+  <rect x="0" y="498" width="800" height="62" fill="rgba(255,255,255,0.88)"/>
+  <line x1="0" y1="498" x2="800" y2="498" stroke="#b0c4de" stroke-width="1"/>
+  <text x="400" y="518" font-size="15" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" font-weight="700" text-anchor="middle">Concept Atlas 3BR — Interior plan</text>
+  <text x="400" y="536" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#466585" font-weight="400" text-anchor="middle">1 storey · 1,180 sq ft</text>
+  <rect x="278" y="518" width="65" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="310" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Compact</text><rect x="361" y="518" width="79" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="400" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">3 bedroom</text><rect x="444" y="518" width="93" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="490" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">1,180 sq ft</text>
+</svg>

@@ -1,0 +1,98 @@
+[
+  {
+    "id": "h001",
+    "title": "Concept Aster 3BR — cross-vent musalla",
+    "blurb": "Concept layout with wind-ready shell and a dedicated prayer room zone. Designed for coastal high-wind sites with natural cross-ventilation.",
+    "tags": {
+      "bedrooms": "3-bed",
+      "religion": "muslim-prayer",
+      "climate": "coastal-high-wind",
+      "prefs": ["single-storey"]
+    },
+    "stats": { "sqft": 1280, "storeys": 1 },
+    "images": {
+      "exterior": "images/h001-exterior.svg",
+      "interior": "images/h001-interior.svg"
+    }
+  },
+  {
+    "id": "h002",
+    "title": "Concept Delta 4BR courtyard",
+    "blurb": "Family-centered courtyard plan with stack ventilation and shaded overhangs. Central garden creates a private outdoor living space.",
+    "tags": {
+      "bedrooms": "4-bed",
+      "religion": "general",
+      "climate": "hot-humid",
+      "prefs": ["multi-generational"]
+    },
+    "stats": { "sqft": 1680, "storeys": 2 },
+    "images": {
+      "exterior": "images/h002-exterior.svg",
+      "interior": "images/h002-interior.svg"
+    }
+  },
+  {
+    "id": "h003",
+    "title": "Concept Nova 2BR infill",
+    "blurb": "Narrow-footprint row-home concept for dense urban rebuilding parcels. Efficient 2-storey layout maximises usable floor space on tight lots.",
+    "tags": {
+      "bedrooms": "2-bed",
+      "religion": "general",
+      "climate": "urban-narrow-lot",
+      "prefs": ["urban-infill"]
+    },
+    "stats": { "sqft": 860, "storeys": 2 },
+    "images": {
+      "exterior": "images/h003-exterior.svg",
+      "interior": "images/h003-interior.svg"
+    }
+  },
+  {
+    "id": "h004",
+    "title": "Concept Atlas 3BR compact",
+    "blurb": "Compact envelope concept tuned for lower heat loss in cold seasons. Steep gable roof sheds snow and thick walls retain warmth.",
+    "tags": {
+      "bedrooms": "3-bed",
+      "religion": "general",
+      "climate": "cold-winter",
+      "prefs": ["single-storey"]
+    },
+    "stats": { "sqft": 1180, "storeys": 1 },
+    "images": {
+      "exterior": "images/h004-exterior.svg",
+      "interior": "images/h004-interior.svg"
+    }
+  },
+  {
+    "id": "h005",
+    "title": "Concept Tide 4BR raised",
+    "blurb": "Elevated concept with flood-resilient raised base and protected utilities on stilts. External staircase provides safe access above flood levels.",
+    "tags": {
+      "bedrooms": "4-bed",
+      "religion": "muslim-prayer",
+      "climate": "flood-resilient",
+      "prefs": ["multi-generational"]
+    },
+    "stats": { "sqft": 1760, "storeys": 2 },
+    "images": {
+      "exterior": "images/h005-exterior.svg",
+      "interior": "images/h005-interior.svg"
+    }
+  },
+  {
+    "id": "h006",
+    "title": "Concept Vale 3BR accessible",
+    "blurb": "Mixed-climate concept with wheelchair-friendly wide doorways, ramp entry, and open-plan layout. No internal steps.",
+    "tags": {
+      "bedrooms": "3-bed",
+      "religion": "general",
+      "climate": "temperate",
+      "prefs": ["wheelchair-friendly"]
+    },
+    "stats": { "sqft": 1320, "storeys": 1 },
+    "images": {
+      "exterior": "images/h006-exterior.svg",
+      "interior": "images/h006-interior.svg"
+    }
+  }
+]

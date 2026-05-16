@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f2fb"/>
+      <stop offset="100%" stop-color="#f5f8fb"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#d4e0ec" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="560" fill="url(#sky)"/>
+  <rect width="800" height="560" fill="url(#grid)" opacity="0.4"/>
+  <!-- ground shadow -->
+  <ellipse cx="400" cy="470" rx="220" ry="30" fill="#c8d8e8" opacity="0.4"/>
+  <polygon points="400.0,320.0 670.2,476.0 445.0,606.0 174.8,450.0" fill="#d8e8d0" stroke="#b0c8b0" stroke-width="1.5"/>
+<polygon points="400.0,176.0 652.2,321.6 445.0,441.2 192.8,295.6" fill="#f0f4f8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,176.0 400.0,290.4 652.2,436.0 652.2,321.6" fill="#dce8f0" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="652.2,321.6 652.2,436.0 445.0,555.6 445.0,441.2" fill="#c8d8e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,176.0 454.0,207.2 391.0,243.6 337.0,212.4" fill="#f5f0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,176.0 400.0,290.4 454.0,321.6 454.0,207.2" fill="#ede0d0" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="454.0,207.2 454.0,321.6 391.0,358.0 391.0,243.6" fill="#ddd0c0" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,176.0 652.2,321.6 526.1,186.4" fill="#b8cde0" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="652.2,321.6 445.0,441.2 318.9,306.0 526.1,186.4" fill="#8aabcc" stroke="#2d4a6b" stroke-width="1.5"/>
+<line x1="526.1" y1="186.4" x2="318.9" y2="306.0" stroke="#2d4a6b" stroke-width="2"/>
+<polygon points="481.1,252.4 499.1,262.8 499.1,247.2 481.1,236.8" fill="#c0d8ec" stroke="#2d4a6b" stroke-width="1.2"/>
+<polygon points="409.0,294.0 427.0,304.4 427.0,288.8 409.0,278.4" fill="#c0d8ec" stroke="#2d4a6b" stroke-width="1.2"/>
+<polygon points="616.2,420.4 580.1,441.2 580.1,415.2 616.2,394.4" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="548.6,459.4 512.6,480.2 512.6,454.2 548.6,433.4" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="503.6,313.8 535.1,332.0 535.1,306.0 503.6,287.8" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="571.1,352.8 602.6,371.0 602.6,345.0 571.1,326.8" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="526.1,363.2 548.6,376.2 548.6,329.4 526.1,316.4" fill="#8b6a3e" stroke="#2d4a6b" stroke-width="1.0"/>
+<text x="427.0" y="221.2" font-size="14" fill="#c0a050" text-anchor="middle">☽</text>
+<line x1="454.0" y1="534.8" x2="454.0" y2="508.8" stroke="#7a5c2e" stroke-width="3"/><ellipse cx="454.0" cy="500.8" rx="14" ry="10" fill="#4a8e4a" stroke="#2d4a6b" stroke-width="1.2"/>
+  <!-- labels -->
+  <rect x="0" y="498" width="800" height="62" fill="rgba(255,255,255,0.88)"/>
+  <line x1="0" y1="498" x2="800" y2="498" stroke="#b0c4de" stroke-width="1"/>
+  <text x="400" y="518" font-size="15" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" font-weight="700" text-anchor="middle">Concept Aster 3BR — cross-vent musalla</text>
+  <text x="400" y="536" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#466585" font-weight="400" text-anchor="middle">1 storey · 1,280 sq ft</text>
+  <rect x="278" y="518" width="65" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="310" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Coastal</text><rect x="347" y="518" width="107" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="400" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Muslim prayer</text><rect x="454" y="518" width="72" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="490" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">1 storey</text>
+</svg>

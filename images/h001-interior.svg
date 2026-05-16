@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f2fb"/>
+      <stop offset="100%" stop-color="#f5f8fb"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#d4e0ec" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="560" fill="url(#sky)"/>
+  <rect width="800" height="560" fill="url(#grid)" opacity="0.4"/>
+  <!-- ground shadow -->
+  <ellipse cx="400" cy="470" rx="220" ry="30" fill="#c8d8e8" opacity="0.4"/>
+  <polygon points="400.0,300.0 495.3,355.0 400.0,410.0 304.7,355.0" fill="#e8f0fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="400.0" y="359.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Living</text>
+<polygon points="495.3,355.0 566.7,396.2 509.6,429.2 438.1,388.0" fill="#e8faf0" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="502.4" y="396.1" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Kitchen</text>
+<polygon points="566.7,396.2 638.2,437.5 581.0,470.5 509.6,429.2" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="573.9" y="437.4" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 1</text>
+<polygon points="304.7,355.0 376.2,396.2 280.9,451.2 209.5,410.0" fill="#faf0e0" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="292.8" y="407.1" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Musalla</text>
+<polygon points="376.2,396.2 447.6,437.5 352.4,492.5 280.9,451.2" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="364.3" y="448.4" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 2</text>
+<polygon points="447.6,437.5 485.7,459.5 390.5,514.5 352.4,492.5" fill="#f0e8fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="419.1" y="480.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bath</text>
+<polygon points="485.7,459.5 542.9,492.5 447.6,547.5 390.5,514.5" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="466.7" y="507.5" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 3</text>
+<polygon points="438.1,388.0 509.6,429.2 471.4,451.2 400.0,410.0" fill="#f5f5f5" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="454.8" y="423.6" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Corridor</text><text x="720" y="80" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">N ↑</text>
+  <!-- labels -->
+  <rect x="0" y="498" width="800" height="62" fill="rgba(255,255,255,0.88)"/>
+  <line x1="0" y1="498" x2="800" y2="498" stroke="#b0c4de" stroke-width="1"/>
+  <text x="400" y="518" font-size="15" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" font-weight="700" text-anchor="middle">Concept Aster 3BR — Interior floor plan</text>
+  <text x="400" y="536" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#466585" font-weight="400" text-anchor="middle">1 storey · 1,280 sq ft</text>
+  <rect x="271" y="518" width="79" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="310" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Open plan</text><rect x="354" y="518" width="93" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="400" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Prayer room</text><rect x="444" y="518" width="93" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="490" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">1,280 sq ft</text>
+</svg>

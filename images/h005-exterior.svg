@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f2fb"/>
+      <stop offset="100%" stop-color="#f5f8fb"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#d4e0ec" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="560" fill="url(#sky)"/>
+  <rect width="800" height="560" fill="url(#grid)" opacity="0.4"/>
+  <!-- ground shadow -->
+  <ellipse cx="400" cy="470" rx="220" ry="30" fill="#c8d8e8" opacity="0.4"/>
+  <polygon points="400.0,350.0 715.2,532.0 445.0,688.0 129.8,506.0" fill="#d0e8f8" stroke="#a8c8e8" stroke-width="1.5"/>
+<line x1="377.5" y1="389.0" x2="625.2" y2="532.0" stroke="#a0c0e0" stroke-width="1" stroke-dasharray="8,4" opacity="0.6"/>
+<line x1="287.4" y1="441.0" x2="535.1" y2="584.0" stroke="#a0c0e0" stroke-width="1" stroke-dasharray="8,4" opacity="0.6"/>
+<line x1="197.4" y1="493.0" x2="445.0" y2="636.0" stroke="#a0c0e0" stroke-width="1" stroke-dasharray="8,4" opacity="0.6"/>
+<line x1="400.0" y1="391.6" x2="400.0" y2="313.6" stroke="#7a5a3a" stroke-width="5"/>
+<line x1="210.9" y1="500.8" x2="210.9" y2="422.8" stroke="#7a5a3a" stroke-width="5"/>
+<line x1="634.2" y1="526.8" x2="634.2" y2="448.8" stroke="#7a5a3a" stroke-width="5"/>
+<line x1="445.0" y1="636.0" x2="445.0" y2="558.0" stroke="#7a5a3a" stroke-width="5"/>
+<line x1="517.1" y1="459.2" x2="517.1" y2="381.2" stroke="#7a5a3a" stroke-width="5"/>
+<line x1="327.9" y1="568.4" x2="327.9" y2="490.4" stroke="#7a5a3a" stroke-width="5"/>
+<polygon points="400.0,217.6 670.2,373.6 445.0,503.6 174.8,347.6" fill="#d0c8b8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,217.6 400.0,306.0 670.2,462.0 670.2,373.6" fill="#c0b8a8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="670.2,373.6 670.2,462.0 445.0,592.0 445.0,503.6" fill="#b8b0a0" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,108.4 670.2,264.4 445.0,394.4 174.8,238.4" fill="#f4f0ec" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,108.4 400.0,306.0 670.2,462.0 670.2,264.4" fill="#e8e0d8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="670.2,264.4 670.2,462.0 445.0,592.0 445.0,394.4" fill="#dcd4cc" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,4.4 670.2,160.4 445.0,290.4 174.8,134.4" fill="#f0ede8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,4.4 400.0,306.0 670.2,462.0 670.2,160.4" fill="#e4dcd4" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="670.2,160.4 670.2,462.0 445.0,592.0 445.0,290.4" fill="#d8d0c8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,4.4 670.2,160.4 535.1,9.6" fill="#a0b8c8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="670.2,160.4 445.0,290.4 309.9,139.6 535.1,9.6" fill="#7898b0" stroke="#2d4a6b" stroke-width="1.5"/>
+<line x1="535.1" y1="9.6" x2="309.9" y2="139.6" stroke="#2d4a6b" stroke-width="2"/>
+<polygon points="544.1,422.8 580.1,443.6 548.6,373.4 512.6,352.6" fill="#c8b8a0" stroke="#a8a090" stroke-width="1.2"/>
+<polygon points="647.7,360.6 611.7,381.4 611.7,355.4 647.7,334.6" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="557.6,412.6 521.6,433.4 521.6,407.4 557.6,386.6" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="647.7,256.6 611.7,277.4 611.7,251.4 647.7,230.6" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="557.6,308.6 521.6,329.4 521.6,303.4 557.6,282.6" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<text x="422.5" y="51.0" font-size="14" fill="#c0a050" text-anchor="middle">☽</text>
+  <!-- labels -->
+  <rect x="0" y="498" width="800" height="62" fill="rgba(255,255,255,0.88)"/>
+  <line x1="0" y1="498" x2="800" y2="498" stroke="#b0c4de" stroke-width="1"/>
+  <text x="400" y="518" font-size="15" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" font-weight="700" text-anchor="middle">Concept Tide 4BR — Flood-resilient raised</text>
+  <text x="400" y="536" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#466585" font-weight="400" text-anchor="middle">2 storey · 1,760 sq ft</text>
+  <rect x="250" y="518" width="121" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="310" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Flood-resilient</text><rect x="371" y="518" width="58" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="400" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Raised</text><rect x="451" y="518" width="79" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="490" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">2 storeys</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f2fb"/>
+      <stop offset="100%" stop-color="#f5f8fb"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#d4e0ec" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="560" fill="url(#sky)"/>
+  <rect width="800" height="560" fill="url(#grid)" opacity="0.4"/>
+  <!-- ground shadow -->
+  <ellipse cx="400" cy="470" rx="220" ry="30" fill="#c8d8e8" opacity="0.4"/>
+  <polygon points="400.0,290.0 519.5,359.0 439.8,405.0 320.3,336.0" fill="#e8f0fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="419.9" y="351.5" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Living / Dining</text>
+<polygon points="519.5,359.0 599.2,405.0 539.4,439.5 459.8,393.5" fill="#e8faf0" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="529.5" y="403.2" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Kitchen</text>
+<polygon points="599.2,405.0 658.9,439.5 579.3,485.5 519.5,451.0" fill="#faf0e0" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="589.2" y="449.2" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Musalla</text>
+<polygon points="320.3,336.0 400.0,382.0 320.3,428.0 240.7,382.0" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="320.3" y="386.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 1 (master)</text>
+<polygon points="400.0,382.0 479.7,428.0 400.0,474.0 320.3,428.0" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="400.0" y="432.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 2</text>
+<polygon points="479.7,428.0 539.4,462.5 491.6,490.1 431.9,455.6" fill="#f0e8fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="485.6" y="463.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bath 1</text>
+<polygon points="431.9,455.6 491.6,490.1 459.8,508.5 400.0,474.0" fill="#f5f0e0" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="445.8" y="486.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Utility</text>
+<polygon points="539.4,462.5 579.3,485.5 499.6,531.5 459.8,508.5" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="519.5" y="501.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 3</text>
+<polygon points="240.7,382.0 380.1,462.5 300.4,508.5 161.0,428.0" fill="#faf0e8" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="270.5" y="449.2" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bed 4</text>
+<polygon points="380.1,462.5 499.6,531.5 419.9,577.5 300.4,508.5" fill="#f0e8fa" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="400.0" y="524.0" font-size="10" font-family="Segoe UI,Arial,sans-serif" fill="#2d4a6b" text-anchor="middle">Bath 2 + WC</text>
+  <!-- labels -->
+  <rect x="0" y="498" width="800" height="62" fill="rgba(255,255,255,0.88)"/>
+  <line x1="0" y1="498" x2="800" y2="498" stroke="#b0c4de" stroke-width="1"/>
+  <text x="400" y="518" font-size="15" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" font-weight="700" text-anchor="middle">Concept Tide 4BR — Interior plan (GF)</text>
+  <text x="400" y="536" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#466585" font-weight="400" text-anchor="middle">2 storey · 1,760 sq ft</text>
+  <rect x="271" y="518" width="79" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="310" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">4 bedroom</text><rect x="354" y="518" width="93" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="400" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Prayer room</text><rect x="444" y="518" width="93" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="490" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">1,760 sq ft</text>
+</svg>

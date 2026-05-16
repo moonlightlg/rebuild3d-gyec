@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f2fb"/>
+      <stop offset="100%" stop-color="#f5f8fb"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#d4e0ec" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="560" fill="url(#sky)"/>
+  <rect width="800" height="560" fill="url(#grid)" opacity="0.4"/>
+  <!-- ground shadow -->
+  <ellipse cx="400" cy="470" rx="220" ry="30" fill="#c8d8e8" opacity="0.4"/>
+  <polygon points="400.0,330.0 670.2,486.0 445.0,616.0 174.8,460.0" fill="#e8eef4" stroke="#c8d4e0" stroke-width="1.5"/>
+<polygon points="400.0,165.6 643.2,306.0 445.0,420.4 201.9,280.0" fill="#f0ece8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,165.6 400.0,295.6 643.2,436.0 643.2,306.0" fill="#e4dcd8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="643.2,306.0 643.2,436.0 445.0,550.4 445.0,420.4" fill="#d8d0cc" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="620.7,407.4 589.1,425.6 589.1,399.6 620.7,381.4" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="544.1,451.6 512.6,469.8 512.6,443.8 544.1,425.6" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="454.0,285.2 485.6,303.4 485.6,277.4 454.0,259.2" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="544.1,337.2 575.6,355.4 575.6,329.4 544.1,311.2" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="400.0,165.6 643.2,306.0 521.6,147.4" fill="#8090a8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="643.2,306.0 445.0,420.4 323.4,261.8 521.6,147.4" fill="#606878" stroke="#2d4a6b" stroke-width="1.5"/>
+<line x1="521.6" y1="147.4" x2="323.4" y2="261.8" stroke="#2d4a6b" stroke-width="2"/>
+<polygon points="544.1,155.2 566.6,168.2 544.1,181.2 521.6,168.2" fill="#808080" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="544.1,155.2 544.1,404.8 566.6,417.8 566.6,168.2" fill="#686868" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="566.6,168.2 566.6,417.8 544.1,430.8 544.1,181.2" fill="#585858" stroke="#2d4a6b" stroke-width="1.5"/>
+<text x="544.1" y="207.8" font-size="18" fill="#c0c0c0" opacity="0.7">~</text>
+<polygon points="512.6,360.6 535.1,373.6 535.1,326.8 512.6,313.8" fill="#6b4c2e" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="499.1,340.4 544.1,366.4 562.1,356.0 517.1,330.0" fill="#9090a0" stroke="#606060" stroke-width="1.2"/>
+  <!-- labels -->
+  <rect x="0" y="498" width="800" height="62" fill="rgba(255,255,255,0.88)"/>
+  <line x1="0" y1="498" x2="800" y2="498" stroke="#b0c4de" stroke-width="1"/>
+  <text x="400" y="518" font-size="15" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" font-weight="700" text-anchor="middle">Concept Atlas 3BR — Cold climate compact</text>
+  <text x="400" y="536" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#466585" font-weight="400" text-anchor="middle">1 storey · 1,180 sq ft</text>
+  <rect x="264" y="518" width="93" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="310" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Cold winter</text><rect x="361" y="518" width="79" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="400" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">3 bedroom</text><rect x="454" y="518" width="72" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="490" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">1 storey</text>
+</svg>

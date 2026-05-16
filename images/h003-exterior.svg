@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f2fb"/>
+      <stop offset="100%" stop-color="#f5f8fb"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#d4e0ec" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="560" fill="url(#sky)"/>
+  <rect width="800" height="560" fill="url(#grid)" opacity="0.4"/>
+  <!-- ground shadow -->
+  <ellipse cx="400" cy="470" rx="220" ry="30" fill="#c8d8e8" opacity="0.4"/>
+  <polygon points="420.0,330.0 577.6,421.0 352.5,551.0 194.8,460.0" fill="#c8c8c8" stroke="#a8a8a8" stroke-width="1.5"/>
+<polygon points="309.9,46.0 377.5,85.0 152.3,215.0 84.8,176.0" fill="#d8d8d4" stroke="#666" stroke-width="1.5"/>
+<polygon points="309.9,46.0 309.9,228.0 377.5,267.0 377.5,85.0" fill="#c8c8c4" stroke="#666" stroke-width="1.5"/>
+<polygon points="377.5,85.0 377.5,267.0 152.3,397.0 152.3,215.0" fill="#b8b8b4" stroke="#666" stroke-width="1.5"/>
+<polygon points="557.6,137.0 625.2,176.0 400.0,306.0 332.5,267.0" fill="#d8d4d4" stroke="#666" stroke-width="1.5"/>
+<polygon points="557.6,137.0 557.6,371.0 625.2,410.0 625.2,176.0" fill="#c8c4c4" stroke="#666" stroke-width="1.5"/>
+<polygon points="625.2,176.0 625.2,410.0 400.0,540.0 400.0,306.0" fill="#b8b4b4" stroke="#666" stroke-width="1.5"/>
+<polygon points="400.0,165.6 557.6,256.6 332.5,386.6 174.8,295.6" fill="#f4f2ee" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,165.6 400.0,280.0 557.6,371.0 557.6,256.6" fill="#e8e0d8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="557.6,256.6 557.6,371.0 332.5,501.0 332.5,386.6" fill="#dcd4c8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,46.0 557.6,137.0 332.5,267.0 174.8,176.0" fill="#f0eeea" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,46.0 400.0,280.0 557.6,371.0 557.6,137.0" fill="#e4dcd4" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="557.6,137.0 557.6,371.0 332.5,501.0 332.5,267.0" fill="#d8d0c8" stroke="#2d4a6b" stroke-width="1.5"/>
+<line x1="420.0" y1="215.6" x2="577.6" y2="306.6" stroke="#2d4a6b" stroke-width="2" stroke-dasharray="4,3"/>
+<polygon points="400.0,30.4 557.6,121.4 332.5,251.4 174.8,160.4" fill="#e0dcd8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="400.0,30.4 400.0,280.0 557.6,371.0 557.6,121.4" fill="#d8d4d0" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="557.6,121.4 557.6,371.0 332.5,501.0 332.5,251.4" fill="#d0ccc8" stroke="#2d4a6b" stroke-width="1.5"/>
+<polygon points="530.6,350.2 503.6,365.8 503.6,339.8 530.6,324.2" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="467.5,386.6 440.5,402.2 440.5,376.2 467.5,360.6" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="445.0,269.6 472.1,285.2 472.1,259.2 445.0,243.6" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="508.1,306.0 535.1,321.6 535.1,295.6 508.1,280.0" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="530.6,313.8 503.6,329.4 503.6,303.4 530.6,287.8" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="467.5,350.2 440.5,365.8 440.5,339.8 467.5,324.2" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="445.0,233.2 472.1,248.8 472.1,222.8 445.0,207.2" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="508.1,269.6 535.1,285.2 535.1,259.2 508.1,243.6" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="530.6,235.8 503.6,251.4 503.6,225.4 530.6,209.8" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="467.5,272.2 440.5,287.8 440.5,261.8 467.5,246.2" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="445.0,155.2 472.1,170.8 472.1,144.8 445.0,129.2" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="508.1,191.6 535.1,207.2 535.1,181.2 508.1,165.6" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="530.6,199.4 503.6,215.0 503.6,189.0 530.6,173.4" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="467.5,235.8 440.5,251.4 440.5,225.4 467.5,209.8" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="445.0,118.8 472.1,134.4 472.1,108.4 445.0,92.8" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="508.1,155.2 535.1,170.8 535.1,144.8 508.1,129.2" fill="#b8d4f0" stroke="#2d4a6b" stroke-width="1.0"/>
+<polygon points="467.5,319.0 490.1,332.0 490.1,285.2 467.5,272.2" fill="#5a3e2a" stroke="#2d4a6b" stroke-width="1.0"/>
+  <!-- labels -->
+  <rect x="0" y="498" width="800" height="62" fill="rgba(255,255,255,0.88)"/>
+  <line x1="0" y1="498" x2="800" y2="498" stroke="#b0c4de" stroke-width="1"/>
+  <text x="400" y="518" font-size="15" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" font-weight="700" text-anchor="middle">Concept Nova 2BR — Urban infill</text>
+  <text x="400" y="536" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#466585" font-weight="400" text-anchor="middle">2 storey · 860 sq ft</text>
+  <rect x="285" y="518" width="51" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="310" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Urban</text><rect x="357" y="518" width="86" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="400" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">Narrow lot</text><rect x="451" y="518" width="79" height="20" rx="10" fill="#dde8f5" stroke="#b0c4de" stroke-width="1"/><text x="490" y="532" font-size="11" font-family="Segoe UI,Arial,sans-serif" fill="#1b3a5c" text-anchor="middle">2 storeys</text>
+</svg>
